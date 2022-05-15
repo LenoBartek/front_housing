@@ -1,8 +1,6 @@
 <template>
   <div id="app">
-    <div class="container-fluid">
-        <router-view></router-view >
-    </div>
+    <router-view></router-view>
   </div>
 </template>
 
@@ -15,9 +13,14 @@ export default {
 </script>
 <style>
 
-html, body {
-  margin:0;
-  padding:0;
-  height:100%;
+#app {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: white;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 </style>
