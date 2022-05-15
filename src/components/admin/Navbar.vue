@@ -45,7 +45,7 @@ export default {
 
 #navbar {
   height: 20vh;
-  margin: 0 auto;
+  margin: 0 auto 10px;
   font-size: 32px;
   display: -webkit-flex;
   display: flex;
