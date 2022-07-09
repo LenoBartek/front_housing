@@ -1,20 +1,18 @@
 <template>
   <div class="body">
+    <slot></slot>
   </div>
 </template>
 
-<script>
-export default {
-  // eslint-disable-next-line vue/multi-word-component-names
-  name: 'Body',
-  components: {},
-}
-</script>
 <style scoped>
-
-.body{
+.body {
+  position: fixed;
+  text-decoration: none;
+  left: 16%;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
   height: 80vh;
-  width: 80vw;
+  width: 83vw;
   font-size: 20px;
   background-color: #f1f1f1;
   box-sizing: border-box;

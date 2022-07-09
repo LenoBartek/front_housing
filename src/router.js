@@ -1,31 +1,23 @@
-import { createWebHistory, createRouter } from "vue-router";
-import Home from "./components/admin/Home.vue";
+import { createRouter, createWebHistory } from "vue-router";
+
 import Login from "./pages/Login.vue";
 import Register from "./pages/Register.vue";
+import NotFound from "./pages/NotFound.vue";
+import ImmovablePage from "./pages/immovable/ImmovablePage.vue";
+import ImmovableBuilding from "./pages/immovable/ImmovableBuilding.vue"
+import ImmovableFlat from "./pages/immovable/ImmovableFlat.vue"
 
-const routes = [
-    {
-        path: "/",
-        name: "login",
-        component: Login,
-    },
-    {
-        path: "/login",
-        name: "login",
-        component: Login,
-    },
-    {
-        path: "/home",
-        component: Home,
-    },
-    {
-        path: "/register",
-        component: Register,
-    },
-
-];
 const router = createRouter({
-    history: createWebHistory(),
-    routes,
+  history: createWebHistory(),
+  routes: [
+    { path: "/", redirect: "/login" },
+    { path: "/login", component: Login },
+    { path: "/register", component: Register },
+    { path: "/immovable", component: ImmovablePage},
+    { path: '/immovable/building', component: ImmovableBuilding},
+    { path: '/immovable/flat', component: ImmovableFlat},
+    { path: "/:notFound(.*)", component: NotFound },
+  ],
 });
+
 export default router;

@@ -1,7 +1,7 @@
 <template>
   <div class="sidebar">
     <ul>
-      <li><a class="active" href="#Nieruchomosci">Nieruchomosci</a></li>
+      <li><a class="active">Nieruchomosci</a></li>
       <li><a href="#Liczniki">Liczniki</a></li>
       <li><a href="#Next">Next</a></li>
       <li><a href="#Next">Next</a></li>
@@ -12,21 +12,28 @@
 <script>
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
-  name: 'MenuAdmin',
-  components: {},
+
 }
 </script>
 <style scoped>
 
-.sidebar{
+.sidebar{ 
+  position: absolute;
+  left: 0%;
   height: 80vh;
   width: 15vw;
-  float: left;
   font-size: 20px;
   background-color: #f1f1f1;
   box-sizing: border-box;
   display: inline-block;
 }
+
+/* @media all and (max-width: 980px) {
+    #element{
+        margin-left: 0px;
+        left: 220px;
+    }
+} */
 
 .sidebar ul {
   list-style-type: none;
