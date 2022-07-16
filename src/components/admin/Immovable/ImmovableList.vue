@@ -121,7 +121,11 @@ export default {
       return this.$route.path + "/" + "building";
     },
     immovableFlatLink() {
-      return this.$route.path + "/" + "flat";
+      if (this.building) {
+        return this.$route.path + "/" + this.building.id + "/" + "flat";
+      } else {
+        return this.$route.path;
+      }
     },
     getNodes() {
       return this.$store.getters["immovable/nodes_2"];
