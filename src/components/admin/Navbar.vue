@@ -32,6 +32,7 @@ export default {
   mounted() {
     const user = JSON.parse(localStorage.getItem("user"));
     this.loggedUser = user.username;
+    //this.loggedUser  = "Adam Kowalski"
   },
   methods: {
     logOut() {
@@ -44,7 +45,7 @@ export default {
 <style scoped>
 
 #navbar {
-  height: 20vh;
+  height: 17vh;
   margin: 0 auto 10px;
   font-size: 32px;
   display: -webkit-flex;
