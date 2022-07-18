@@ -5,4 +5,7 @@ export default {
   setBuildings(state, payload) {
     state.nodes_2 = payload;
   },
+  setBuildingID(state, payload) {
+    state.buildingID = payload;
+  }
 };

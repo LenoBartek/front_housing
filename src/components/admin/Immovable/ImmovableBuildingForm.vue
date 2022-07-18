@@ -30,7 +30,7 @@
     <div :class="{ invalid: !number.isValid }">
       <label for="number">Numer Budynku</label>
       <input
-        type="number"
+        type="text"
         id="number"
         v-model.trim="number.val"
         @blur="clearValidity('number')"
@@ -116,7 +116,7 @@ export default {
         isValid: true,
       },
       number: {
-        val: null,
+        val: "",
         isValid: true,
       },
       zipCode: {
@@ -153,23 +153,23 @@ export default {
     validateForm() {
       this.formIsValid = true;
 
-      if (this.name.val === "") {
+      if (this.name.val === "" || this.name.val.length > 100) {
         this.name.isValid = false;
         this.formIsValid = false;
       }
-      if (this.town.val === "") {
+      if (this.town.val === "" || this.town.val.length > 100) {
         this.town.isValid = false;
         this.formIsValid = false;
       }
-      if (this.street.val === "") {
+      if (this.street.val === "" || this.street.val.length > 100) {
         this.street.isValid = false;
         this.formIsValid = false;
       }
-      if (!this.number.val || this.number.val < 0) {
+      if (this.number.val === "" || this.number.val.length > 7) {
         this.number.isValid = false;
         this.formIsValid = false;
       }
-      if (this.zipCode.val === "") {
+      if (this.zipCode.val === "" || this.zipCode.val.length > 6) {
         this.zipCode.isValid = false;
         this.formIsValid = false;
       }
@@ -177,19 +177,19 @@ export default {
         this.yearConstruction.isValid = false;
         this.formIsValid = false;
       }
-      if (!this.areaM2.val || this.areaM2.val < 0) {
+      if (!this.areaM2.val || this.areaM2.val < 1) {
         this.areaM2.isValid = false;
         this.formIsValid = false;
       }
-      if (!this.numberStoreys.val || this.numberStoreys.val < 0) {
+      if (!this.numberStoreys.val || this.numberStoreys.val < -1 || this.numberStoreys.val > 10) {
         this.numberStoreys.isValid = false;
         this.formIsValid = false;
       }
-      if (!this.flatsPerStorey.val || this.flatsPerStorey.val < 0) {
+      if (!this.flatsPerStorey.val || this.flatsPerStorey.val < 1 || this.flatsPerStorey.val > 10) {
         this.flatsPerStorey.isValid = false;
         this.formIsValid = false;
       }
-      if (!this.staircase.val || this.staircase.val < 0) {
+      if (!this.staircase.val || this.staircase.val < 1 || this.staircase.val > 10) {
         this.staircase.isValid = false;
         this.formIsValid = false;
       }

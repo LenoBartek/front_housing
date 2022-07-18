@@ -6,6 +6,7 @@ export default {
   namespaced: true,
   state() {
     return {
+      buildingID: null,
       nodes_2: [
         {
           id: "c1",

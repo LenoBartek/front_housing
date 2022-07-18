@@ -15,7 +15,8 @@ export default {
       staircase: data.staircase,
       flats: [],
     };
-    console.log('bdada',buildingData)
+
+
     const response = await fetch(
       context.rootGetters.host + "/buildings",
       {
@@ -35,16 +36,15 @@ export default {
   },
 
   async loadBuildings(context) {
-    const response = await fetch(
-      context.rootGetters.host + "/buildings",
-      {
-        headers: authHeader(),
-      }
-    );
+    const response = await fetch(context.rootGetters.host + "/buildings", {
+      headers: authHeader(),
+    });
     const responseData = await response.json();
 
     if (!response.ok) {
-      const error = new Error(responseData.message || "Nie udało się pobrać danych!");
+      const error = new Error(
+        responseData.message || "Nie udało się pobrać danych!"
+      );
       throw error;
     }
 
@@ -66,6 +66,40 @@ export default {
       };
       buildings.push(building);
     }
-    context.commit('setBuildings', buildings)
+    context.commit("setBuildings", buildings);
+  },
+
+  async loadBuildingID(context, payload) {
+    const response = await fetch(
+      context.rootGetters.host + `/buildings/${payload}`,
+      {
+        headers: authHeader(),
+      }
+    );
+    const responseData = await response.json();
+
+    if (!response.ok) {
+      const error = new Error(
+        responseData.message || "Nie udało się pobrać danych!"
+      );
+      throw error;
+    }
+
+    const building = {
+      id: responseData.id,
+      name: responseData.name,
+      town: responseData.town,
+      street: responseData.street,
+      number: responseData.number,
+      zipCode: responseData.zipCode,
+      yearConstruction: responseData.yearConstruction,
+      areaM2: responseData.areaM2,
+      numberStoreys: responseData.numberStoreys,
+      flatsPerStorey: responseData.flatsPerStorey,
+      staircase: responseData.staircase,
+      flats: responseData.flats,
+    };
+  
+    context.commit("setBuildingID", building);
   },
 };

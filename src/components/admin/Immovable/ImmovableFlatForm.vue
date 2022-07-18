@@ -18,6 +18,15 @@
         @blur="clearValidity('number')"
       />
     </div>
+    <div :class="{ invalid: !nrStaircase.isValid }">
+      <label for="nrStaircase">Numer klatki schodowej</label>
+      <input
+        type="number"
+        id="nrStaircase"
+        v-model.trim="nrStaircase.val"
+        @blur="clearValidity('nrStaircase')"
+      />
+    </div>
     <div :class="{ invalid: !areaM2.isValid }">
       <label for="areaM2">Powierzchnia (m²): </label>
       <input
@@ -71,6 +80,10 @@ export default {
         val: null,
         isValid: true,
       },
+      nrStaircase: {
+        val: null,
+        isValid: true,
+      },
       areaM2: {
         val: null,
         isValid: true,
@@ -90,7 +103,7 @@ export default {
     validateForm() {
       this.formIsValid = true;
 
-      if (!this.storey.val || this.storey.val < 0) {
+      if (!this.storey.val || this.storey.val < -1 || this.storey.val > 10) {
         this.storey.isValid = false;
         this.formIsValid = false;
       }
@@ -98,7 +111,11 @@ export default {
         this.number.isValid = false;
         this.formIsValid = false;
       }
-      if (!this.areaM2.val || this.areaM2.val < 0) {
+      if (!this.nrStaircase.val || this.nrStaircase.val < 1) {
+        this.nrStaircase.isValid = false;
+        this.formIsValid = false;
+      }
+      if (!this.areaM2.val || this.areaM2.val < 1) {
         this.areaM2.isValid = false;
         this.formIsValid = false;
       }
@@ -117,6 +134,7 @@ export default {
       const formDataFlat = {
         storey: this.storey.val,
         number: this.number.val,
+        nrStaircase: this.nrStaircase.val,
         areaM2: this.areaM2.val,
         typeUse: this.typeUse.val,
       };

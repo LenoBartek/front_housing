@@ -15,10 +15,7 @@ export default {
     ImmovableBuildingForm,
   },
    methods: {
-    saveData(data) {
-      // console.log(data)
-      // this.$store.dispatch('coaches/registerCoach', data);
-      
+    saveData(data) {      
       this.$store.dispatch('immovable/addBuilding', data);
       this.$router.replace('/immovable');
     }

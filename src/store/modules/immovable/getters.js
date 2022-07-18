@@ -5,4 +5,7 @@ export default {
   hasNodes(state) {
     return state.nodes_2 && state.nodes_2.length > 0;
   },
+  buildingID(state) {
+    return state.buildingID;
+  }
 };

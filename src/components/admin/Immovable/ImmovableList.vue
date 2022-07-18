@@ -97,7 +97,6 @@ export default {
       this.error = null;
     },
     findNodeData(node) {
-      // console.log(node.id);
       this.building = null;
       this.flat = null;
       const data = this.getNodes;
@@ -199,12 +198,16 @@ export default {
             indicator: { value: this.flat.number },
           },
           {
+            name: "Numer klatki schodowej: ",
+            indicator: { value: this.flat.nrStaircase },
+          },
+          {
             name: "Powierzchnia (m²): ",
             indicator: { value: this.flat.areaM2 },
           },
           {
-            name: "TypeUse: ",
-            indicator: { value: this.flat.typeUse },
+            name: "Rodzaj użytkowania: ",
+            indicator: { value: this.flat.typeUse == "RENT" ? "Wynajem" : "Na własność"},
           },
         ];
         return { headers, items };
