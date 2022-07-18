@@ -6,7 +6,7 @@
         class="type"
         @click="nodeClicked(node)"
         
-        >{{ isExpanded(node) ? "&#9660;" : "&#127968;" }} 
+        >{{ isExpanded(node) ? "&#9660;" : "&#9658;" }} 
       </span>
     
       <span 
@@ -27,7 +27,7 @@
 
 <script>
 export default {
-  // "&#9660;" : "&#9658;"
+  // "&#9660;" : "&#9658; "&#9660;" : "&#127968;" "
   name: "TreeBrowser",
   emits: ["onClick"],
   props: {

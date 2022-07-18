@@ -30,9 +30,9 @@ export default {
   },
   components: {},
   mounted() {
-    // const user = JSON.parse(localStorage.getItem("user"));
-    // this.loggedUser = user.username;
-    this.loggedUser  = "Adam Kowalski"
+    const user = JSON.parse(localStorage.getItem("user"));
+    this.loggedUser = user.username;
+    //this.loggedUser  = "Adam Kowalski"
   },
   methods: {
     logOut() {

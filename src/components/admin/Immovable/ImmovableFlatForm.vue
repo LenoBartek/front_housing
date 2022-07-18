@@ -18,15 +18,6 @@
         @blur="clearValidity('number')"
       />
     </div>
-    <div :class="{ invalid: !type.isValid }">
-      <label for="type">Typ Mieszkania</label>
-      <input
-        type="text"
-        id="type"
-        v-model.trim="type.val"
-        @blur="clearValidity('type')"
-      />
-    </div>
     <div :class="{ invalid: !areaM2.isValid }">
       <label for="areaM2">Powierzchnia (m²): </label>
       <input
@@ -36,24 +27,30 @@
         @blur="clearValidity('areaM2')"
       />
     </div>
+
     <div :class="{ invalid: !typeUse.isValid }">
-      <label for="typeUse">TypeUse</label>
+      <h3>TypeUse</h3>
+      <div>
+        <input
+          type="radio"
+          id="rent"
+          value="RENT"
+          v-model="typeUse.val"
+          @blur="clearValidity('typeUse')"
+        />
+        <label for="typeUse">Wynajem</label>
+      </div>
+
       <input
-        type="text"
-        id="typeUse"
-        v-model.trim="typeUse.val"
+        type="radio"
+        id="property"
+        value="PROPERTY"
+        v-model="typeUse.val"
         @blur="clearValidity('typeUse')"
       />
+      <label for="typeUse">Na własność</label>
     </div>
-    <div :class="{ invalid: !building.isValid }">
-      <label for="building">Budynek</label>
-      <input
-        type="text"
-        id="building"
-        v-model.trim="building.val"
-        @blur="clearValidity('building')"
-      />
-    </div>
+
     <p v-if="!formIsValid">Uzupełnij poprawnie dane!</p>
     <div>
       <base-button>Dodaj</base-button>
@@ -74,19 +71,11 @@ export default {
         val: null,
         isValid: true,
       },
-      type: {
-        val: "",
-        isValid: true,
-      },
       areaM2: {
         val: null,
         isValid: true,
       },
       typeUse: {
-        val: "",
-        isValid: true,
-      },
-      building: {
         val: "",
         isValid: true,
       },
@@ -109,20 +98,12 @@ export default {
         this.number.isValid = false;
         this.formIsValid = false;
       }
-      if (this.type.val === "") {
-        this.type.isValid = false;
-        this.formIsValid = false;
-      }
       if (!this.areaM2.val || this.areaM2.val < 0) {
         this.areaM2.isValid = false;
         this.formIsValid = false;
       }
       if (this.typeUse.val === "") {
         this.typeUse.isValid = false;
-        this.formIsValid = false;
-      }
-      if (this.building.val === "") {
-        this.building.isValid = false;
         this.formIsValid = false;
       }
     },
@@ -136,10 +117,8 @@ export default {
       const formDataFlat = {
         storey: this.storey.val,
         number: this.number.val,
-        type: this.type.val,
         areaM2: this.areaM2.val,
         typeUse: this.typeUse.val,
-        building: this.building.val,
       };
 
       this.$emit("save-data-flat", formDataFlat);

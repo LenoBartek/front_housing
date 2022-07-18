@@ -72,6 +72,25 @@
         @blur="clearValidity('numberStoreys')"
       />
     </div>
+    <div :class="{ invalid: !flatsPerStorey.isValid }">
+      <label for="flatsPerStorey">Ilość mieszkań na piętrze</label>
+      <input
+        type="number"
+        id="flatsPerStorey"
+        v-model.trim="flatsPerStorey.val"
+        @blur="clearValidity('flatsPerStorey')"
+      />
+    </div>
+    <div :class="{ invalid: !staircase.isValid }">
+      <label for="staircase">Ilość klatek schodowych</label>
+      <input
+        type="number"
+        id="staircase"
+        v-model.trim="staircase.val"
+        @blur="clearValidity('staircase')"
+      />
+    </div>
+
     <p v-if="!formIsValid">Uzupełnij poprawnie dane!</p>
     <div>
       <base-button>Dodaj</base-button>
@@ -113,6 +132,14 @@ export default {
         isValid: true,
       },
       numberStoreys: {
+        val: null,
+        isValid: true,
+      },
+      flatsPerStorey: {
+        val: null,
+        isValid: true,
+      },
+      staircase: {
         val: null,
         isValid: true,
       },
@@ -158,6 +185,14 @@ export default {
         this.numberStoreys.isValid = false;
         this.formIsValid = false;
       }
+      if (!this.flatsPerStorey.val || this.flatsPerStorey.val < 0) {
+        this.flatsPerStorey.isValid = false;
+        this.formIsValid = false;
+      }
+      if (!this.staircase.val || this.staircase.val < 0) {
+        this.staircase.isValid = false;
+        this.formIsValid = false;
+      }
     },
     submitForm() {
       this.validateForm();
@@ -175,6 +210,8 @@ export default {
         yearConstruction: this.yearConstruction.val,
         areaM2: this.areaM2.val,
         numberStoreys: this.numberStoreys.val,
+        flatsPerStorey: this.flatsPerStorey.val,
+        staircase: this.staircase.val,
       };
 
       this.$emit("save-data-building", formDataBuilding);

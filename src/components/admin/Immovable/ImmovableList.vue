@@ -103,15 +103,19 @@ export default {
       const data = this.getNodes;
 
       for (const key in data) {
-        if (data[key].id == node.id) {
+        if (data[key].id == node.id && node.staircase) {
           this.building = data[key];
+          break;
         }
-
+        var flag = false;
         for (const key2 in data[key].flats) {
-          if (data[key].flats[key2].id == node.id) {
+          if (data[key].flats[key2].id == node.id && node.typeUse) {
             this.flat = data[key].flats[key2];
+            flag = true;
+            break;
           }
         }
+        if (flag == true) break;
       }
     },
     editMode() {},
@@ -170,8 +174,16 @@ export default {
             indicator: { value: this.building.areaM2 },
           },
           {
-            name: "Liczba kondygnacji: ",
+            name: "Ilość pięter: ",
             indicator: { value: this.building.numberStoreys },
+          },
+          {
+            name: "Ilość mieszkań na piętrze: ",
+            indicator: { value: this.building.flatsPerStorey },
+          },
+          {
+            name: "Ilość klatek schodowych : ",
+            indicator: { value: this.building.staircase },
           },
         ];
         return { headers, items };
@@ -187,20 +199,12 @@ export default {
             indicator: { value: this.flat.number },
           },
           {
-            name: "Typ mieszkania: ",
-            indicator: { value: this.flat.type },
-          },
-          {
             name: "Powierzchnia (m²): ",
             indicator: { value: this.flat.areaM2 },
           },
           {
             name: "TypeUse: ",
             indicator: { value: this.flat.typeUse },
-          },
-          {
-            name: "Budynek: ",
-            indicator: { value: this.flat.building },
           },
         ];
         return { headers, items };
@@ -216,15 +220,13 @@ export default {
         const tree_node = {
           id: data[key].id,
           name: data[key].name,
+          staircase: data[key].staircase,
         };
 
         data[key].children = [];
 
         for (const key2 in data[key].flats) {
-          const storey = "Piętro" + data[key].flats[key2].storey;
-
-          const numberFlat = data[key].flats[key2].number;
-          data[key].flats[key2].name = "Lokal " + numberFlat;
+          const storey = "Piętro " + data[key].flats[key2].storey;
 
           var isExist = false;
 
@@ -235,10 +237,12 @@ export default {
               isExist = true;
               const child = {
                 id: data[key].flats[key2].id,
-                name: data[key].flats[key2].name,
+                name: "Lokal " + data[key].flats[key2].number,
+                typeUse: data[key].flats[key2].typeUse,
               };
 
               data[key].children[key3].children.push(child);
+              break;
             } else {
               isExist = false;
             }
@@ -250,7 +254,8 @@ export default {
               children: [
                 {
                   id: data[key].flats[key2].id,
-                  name: data[key].flats[key2].name,
+                  name: "Lokal " + data[key].flats[key2].number,
+                  typeUse: data[key].flats[key2].typeUse,
                 },
               ],
             };
@@ -261,49 +266,10 @@ export default {
         tree_node.children = data[key].children;
         tree_nodes.push(tree_node);
       }
+
       return { tree_nodes };
     },
   },
-  // buildingData() {
-  //     if (this.building) {
-  //       const id = this.building.id;
-  //       const name = this.building.name;
-  //       const town = this.building.town;
-  //       const street = this.building.street;
-  //       const number = this.building.number;
-  //       const zipCode = this.building.zipCode;
-  //       const yearConstruction = this.building.yearConstruction;
-  //       const areaM2 = this.building.areaM2;
-  //       const numberStoreys = this.building.numberStoreys;
-
-  //       return {
-  //         id,
-  //         name,
-  //         town,
-  //         street,
-  //         number,
-  //         zipCode,
-  //         yearConstruction,
-  //         areaM2,
-  //         numberStoreys,
-  //       };
-  //     }
-  //     return { _: null };
-  //   },
-  //   flatData() {
-  //     if (this.flat) {
-  //       const id = this.flat.id;
-  //       const storey = this.flat.storey;
-  //       const number = this.flat.number;
-  //       const type = this.flat.type;
-  //       const areaM2 = this.flat.areaM2;
-  //       const typeUse = this.flat.typeUse;
-  //       const building = this.flat.building;
-
-  //       return { id, storey, number, type, areaM2, typeUse, building };
-  //     }
-  //     return { _: null };
-  //   },
 };
 </script>
 
