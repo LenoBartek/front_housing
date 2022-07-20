@@ -1,6 +1,9 @@
 <template>
   <section>
-    <!-- <home-page> </home-page> -->
+    <base-dialog :show="!!error" title="Wystąpił błąd!" @close="handleError">
+      <p>{{ error }}</p>
+    </base-dialog>
+    <home-page> </home-page>
     <h2>Dodawanie Lokalu</h2>
     <base-card>
       <immovable-flat-form @save-data-flat="saveData"> </immovable-flat-form>
@@ -16,43 +19,35 @@ export default {
   },
   data() {
     return {
-      selectedBuilding: null,
+      error: null,
     };
   },
+  created() {
+    // this.loadBuildingID();
+  },
   methods: {
-    saveData(data) {
-      console.log(data);
-      // this.$store.dispatch('coaches/registerCoach', data);
-
-      //   this.$store.dispatch('immovable/addBuilding', data);
-      //   this.$router.replace('/immovable');
-    },
-    async loadBuildings() {
+    async saveData(data) {
+      data.building = this.$route.params.id;
       try {
-        await this.$store.dispatch("immovable/loadBuildings");
+        await this.$store.dispatch("immovable/addFlat", data);
       } catch (error) {
         this.error = error.message || "Coś poszło nie tak :)";
       }
+      if (!this.error) this.$router.replace("/immovable");
     },
-  },
-  created() {
-    this.loadBuildings();
-
-    const data = this.$store.getters["immovable/nodes_2"];
-    console.log("data ", data);
-    for (const key in data) {
-      if (data[key].id == this.$route.params.id) {
-        this.selectedBuilding = data[key];
-        console.log('asdaada',data[key])
-        break;
-      }
-    }
-    console.log(
-      "this building",
-      this.selectedBuilding,
-      "id",
-      this.$route.params.id
-    );
+    // async loadBuildingID() {
+    //   try {
+    //     await this.$store.dispatch(
+    //       "immovable/loadBuildingID",
+    //       this.$route.params.id
+    //     );
+    //   } catch (error) {
+    //     this.error = error.message || "Spróbuj pownownie";
+    //   }
+    // },
+    handleError() {
+      this.error = null;
+    },
   },
 };
 </script>

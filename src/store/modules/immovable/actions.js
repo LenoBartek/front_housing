@@ -15,36 +15,153 @@ export default {
       staircase: data.staircase,
       flats: [],
     };
-    console.log('bdada',buildingData)
+
+    const response = await fetch(context.rootGetters.host + "/buildings", {
+      method: "POST",
+      headers: authHeader(),
+      body: JSON.stringify(buildingData),
+    });
+
+    const responseData = await response.json();
+    if (!response.ok) {
+      const error = new Error(
+        responseData.message || "Nie udało dodać budynku!"
+      );
+      throw error;
+    }
+  },
+
+  async editBuilding(context, data) {
+    const buildingData = {
+      name: data.name,
+      town: data.town,
+      street: data.street,
+      number: data.number,
+      zipCode: data.zipCode,
+      yearConstruction: data.yearConstruction,
+      areaM2: data.areaM2,
+      numberStoreys: data.numberStoreys,
+      flatsPerStorey: data.flatsPerStorey,
+      staircase: data.staircase,
+    };
+
     const response = await fetch(
-      context.rootGetters.host + "/buildings",
+      context.rootGetters.host + `/buildings/${data.id}`,
       {
-        method: "POST",
+        method: "PUT",
         headers: authHeader(),
         body: JSON.stringify(buildingData),
       }
     );
 
-    // const responseData = await response.json();
-
+    const responseData = await response.json();
     if (!response.ok) {
-      // error
+      const error = new Error(
+        responseData.message || "Nie udało edytować budynku!"
+      );
+      throw error;
     }
-
-    context.commit("addBuilding", buildingData);
   },
 
-  async loadBuildings(context) {
+  async deleteBuilding(context, data) {
     const response = await fetch(
-      context.rootGetters.host + "/buildings",
+      context.rootGetters.host + `/buildings/${data}`,
       {
+        method: "DELETE",
         headers: authHeader(),
       }
     );
+
+    const responseData = await response.json();
+    if (!response.ok) {
+      const error = new Error(
+        responseData.message || "Nie udało usunąć budynku!"
+      );
+      throw error;
+    }
+  },
+
+  async addFlat(context, data) {
+    const flatData = {
+      storey: data.storey,
+      number: data.number,
+      nrStaircase: data.nrStaircase,
+      areaM2: data.areaM2,
+      typeUse: data.typeUse,
+      building: { id: data.building },
+    };
+
+    const response = await fetch(context.rootGetters.host + "/flats", {
+      method: "POST",
+      headers: authHeader(),
+      body: JSON.stringify(flatData),
+    });
+
+    const responseData = await response.json();
+    if (!response.ok) {
+      const error = new Error(
+        responseData.message || "Nie udało się dodać mieszkania!"
+      );
+      throw error;
+    }
+  },
+
+  async editFlat(context, data) {
+    const flatData = {
+      storey: data.storey,
+      number: data.number,
+      nrStaircase: data.nrStaircase,
+      areaM2: data.areaM2,
+      typeUse: data.typeUse,
+      building: { id: data.building_id },
+    };
+
+    const response = await fetch(
+      context.rootGetters.host + `/flats/${data.id}`,
+      {
+        method: "PUT",
+        headers: authHeader(),
+        body: JSON.stringify(flatData),
+      }
+    );
+
+    const responseData = await response.json();
+    if (!response.ok) {
+      const error = new Error(
+        responseData.message || "Nie udało się edytować mieszkania!"
+      );
+      throw error;
+    }
+  },
+
+  async deleteFlat(context, data) {
+    const response = await fetch(
+      context.rootGetters.host + `/flats/${data}`,
+      {
+        method: "DELETE",
+        headers: authHeader(),
+      }
+    );
+
+    const responseData = await response.json();
+    if (!response.ok) {
+      const error = new Error(
+        responseData.message || "Nie udało usunąć mieszkania!"
+      );
+      throw error;
+    }
+  },
+
+  async loadBuildings(context) {
+    const response = await fetch(context.rootGetters.host + "/buildings", {
+      headers: authHeader(),
+    });
     const responseData = await response.json();
 
     if (!response.ok) {
-      const error = new Error(responseData.message || "Nie udało się pobrać danych!");
+      const error = new Error(
+        responseData.message || "Nie udało się pobrać danych!"
+      );
       throw error;
     }
 
@@ -66,6 +183,44 @@ export default {
       };
       buildings.push(building);
     }
-    context.commit('setBuildings', buildings)
+    context.commit("setBuildings", buildings);
+  },
+
+  async loadBuildingID(context, payload) {
+    const response = await fetch(
+      context.rootGetters.host + `/buildings/${payload}`,
+      {
+        headers: authHeader(),
+      }
+    );
+    const responseData = await response.json();
+
+    if (!response.ok) {
+      const error = new Error(
+        responseData.message || "Nie udało się pobrać danych!"
+      );
+      throw error;
+    }
+
+    const building = {
+      id: responseData.id,
+      name: responseData.name,
+      town: responseData.town,
+      street: responseData.street,
+      number: responseData.number,
+      zipCode: responseData.zipCode,
+      yearConstruction: responseData.yearConstruction,
+      areaM2: responseData.areaM2,
+      numberStoreys: responseData.numberStoreys,
+      flatsPerStorey: responseData.flatsPerStorey,
+      staircase: responseData.staircase,
+      flats: responseData.flats,
+    };
+
+    context.commit("setBuildingID", building);
+  },
+
+  changeEditMode(context) {
+    context.commit("setEditMode");
   },
 };
