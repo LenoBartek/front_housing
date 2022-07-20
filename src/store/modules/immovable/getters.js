@@ -7,5 +7,9 @@ export default {
   },
   buildingID(state) {
     return state.buildingID;
+  },
+  editStatus(state) {
+    return state.editMode;
   }
+
 };

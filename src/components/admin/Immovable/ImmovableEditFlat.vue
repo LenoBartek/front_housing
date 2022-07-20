@@ -61,16 +61,8 @@
     </div>
 
     <p v-if="!formIsValid">Uzupełnij poprawnie dane!</p>
-    <div v-if="!editStatus">
+    <div>
       <base-button>Dodaj</base-button>
-    </div>
-    <div v-else-if="editStatus">
-      <base-button>Zatwierdź</base-button>
-      <base-button
-        mode="delete"
-        @click="this.$store.dispatch('immovable/changeEditMode')"
-        >Anuluj</base-button
-      >
     </div>
   </form>
 </template>
@@ -78,27 +70,27 @@
 <script>
 export default {
   emits: ["save-data-flat"],
-  props: ["storey2", "number2", "nrStaircase2", "areaM22", "typeUse2"],
+  
   data() {
     return {
       storey: {
-        val: this.storey2 ? this.storey2 : null,
+        val: null,
         isValid: true,
       },
       number: {
-        val: this.number2 ? this.number2 : null,
+        val: null,
         isValid: true,
       },
       nrStaircase: {
-        val: this.nrStaircase2 ? this.nrStaircase2 : null,
+        val: null,
         isValid: true,
       },
       areaM2: {
-        val: this.areaM22 ? this.areaM22 : null,
+        val: null,
         isValid: true,
       },
       typeUse: {
-        val: this.typeUse2 ? this.typeUse2 : "",
+        val: "",
         isValid: true,
       },
 
@@ -149,11 +141,6 @@ export default {
       };
 
       this.$emit("save-data-flat", formDataFlat);
-    },
-  },
-  computed: {
-    editStatus() {
-      return this.$store.getters["immovable/editStatus"];
     },
   },
 };

@@ -2,7 +2,6 @@
   <section>
     <home-page> </home-page>
     <immovable-list> </immovable-list>
-    <router-view> </router-view>
   </section>
 </template>
 

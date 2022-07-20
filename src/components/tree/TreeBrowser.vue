@@ -2,17 +2,15 @@
   <div>
     <div v-for="node in nodes" :key="node.name" class="node">
       <span
-        :style="{ 'margin-left': `${depth * 20}px` }"
+        :style="{ 'margin-left': `${depth * 25}px` }"
         class="type"
         @click="nodeClicked(node)"
-        
-        >{{ isExpanded(node) ? "&#9660;" : "&#9658;" }} 
+        >{{ isExpanded(node) ? "&#9660;" : "&#9658;" }}
       </span>
-    
-      <span 
-      tabindex="1"
-      @click="isSelected(node, depth)"
-      >{{ node.name }} </span>
+
+      <span tabindex="1" @click="isSelected(node, depth)"
+        >{{ node.name }}
+      </span>
 
       <TreeBrowser
         v-if="isExpanded(node) && node.children"
@@ -21,7 +19,6 @@
         @onClick="(node) => $emit('onClick', node)"
       />
     </div>
-
   </div>
 </template>
 
@@ -52,20 +49,17 @@ export default {
       if (node.children) {
         if (!this.isExpanded(node)) {
           this.expanded.push(node);
-          // this.$emit("onClick", node);
         } else {
           this.expanded.splice(this.expanded.indexOf(node));
-          // this.$emit("onClick", node);
         }
       }
     },
     isSelected(node, depth) {
-      if(depth != 1) {
-      this.$emit("onClick", node);
+      if (depth != 1) {
+        this.$emit("onClick", node);
       }
     },
   },
-  computed: {},
 };
 </script>
 

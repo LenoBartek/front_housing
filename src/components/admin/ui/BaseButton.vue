@@ -64,6 +64,29 @@ button:active {
   color: #085a05;
 }
 
+.delete {
+  background-color: #c95757;
+  border-color: #c95757;
+  color: white;
+}
+.delete:hover,
+.delete:active {
+  background-color: #b92c08;
+  border-color: #b92c08;
+}
+
+.edit {
+  background-color: #df9848;
+  border-color: #df9848;
+  color: white;
+}
+.edit:hover,
+.edit:active {
+  background-color: #e6870b;
+  border-color: #e6870b;
+}
+
+
 .flat:hover,
 .flat:active,
 .outline:hover,

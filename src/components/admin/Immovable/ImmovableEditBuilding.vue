@@ -92,16 +92,8 @@
     </div>
 
     <p v-if="!formIsValid">Uzupełnij poprawnie dane!</p>
-    <div v-if="!editStatus">
+    <div>
       <base-button>Dodaj</base-button>
-    </div>
-    <div v-else-if="editStatus">
-      <base-button>Zatwierdź</base-button>
-      <base-button
-        mode="delete"
-        @click="this.$store.dispatch('immovable/changeEditMode')"
-        >Anuluj</base-button
-      >
     </div>
   </form>
 </template>
@@ -120,6 +112,7 @@ export default {
     "numberStoreys2",
     "flatsPerStorey2",
     "staircase2",
+    "flats2",
   ],
   data() {
     return {
@@ -128,39 +121,39 @@ export default {
         isValid: true,
       },
       town: {
-        val: this.town2 ? this.town2 : "",
+        val: "",
         isValid: true,
       },
       street: {
-        val: this.street2 ? this.street2 : "",
+        val: "",
         isValid: true,
       },
       number: {
-        val: this.number2 ? this.number2 : "",
+        val: "",
         isValid: true,
       },
       zipCode: {
-        val: this.zipCode2 ? this.zipCode2 : "",
+        val: "",
         isValid: true,
       },
       yearConstruction: {
-        val: this.yearConstruction2 ? this.yearConstruction2 : null,
+        val: null,
         isValid: true,
       },
       areaM2: {
-        val: this.areaM22 ? this.areaM22 : null,
+        val: null,
         isValid: true,
       },
       numberStoreys: {
-        val: this.numberStoreys2 ? this.numberStoreys2 : null,
+        val: null,
         isValid: true,
       },
       flatsPerStorey: {
-        val: this.flatsPerStorey2 ? this.flatsPerStorey2 : null,
+        val: null,
         isValid: true,
       },
       staircase: {
-        val: this.staircase2 ? this.staircase2 : null,
+        val: null,
         isValid: true,
       },
       formIsValid: true,
@@ -245,12 +238,8 @@ export default {
         flatsPerStorey: this.flatsPerStorey.val,
         staircase: this.staircase.val,
       };
+
       this.$emit("save-data-building", formDataBuilding);
-    },
-  },
-  computed: {
-    editStatus() {
-      return this.$store.getters["immovable/editStatus"];
     },
   },
 };

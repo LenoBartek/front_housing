@@ -12,15 +12,38 @@
             >Dodaj budynek</base-button
           >
           <base-button link :to="immovableFlatLink">Dodaj lokal </base-button>
-          <base-button>Dodaj mieszkańca </base-button>
-          <base-button>Wyszukaj</base-button>
+          <base-button @click="serchToggle">Wyszukaj</base-button>
+          <base-button @click="deleteToggle" mode="delete"
+            >Usuń budynek</base-button
+          >
+          <base-button @click="deleteToggle2" mode="delete"
+            >Usuń lokal</base-button
+          >
         </section>
       </template>
 
       <template #left>
+        <div v-if="search">
+          <input
+            type="text"
+            name="searchBar"
+            placeholder="Szukaj..."
+            v-model="searchQuery"
+          />
+
+          <div
+            class="card ui fluid"
+            v-for="build in filteredList"
+            :key="build.name"
+            style="margin: 0"
+          >
+            <p>{{ build.name }}</p>
+          </div>
+        </div>
         <div v-if="isLoading">
           <base-spinner> </base-spinner>
         </div>
+
         <div v-else-if="hasNodes">
           <immovable-item
             :nodes="prepareData.tree_nodes"
@@ -28,6 +51,7 @@
           >
           </immovable-item>
         </div>
+
         <h3 v-else>Brak Danych</h3>
       </template>
 
@@ -38,27 +62,36 @@
             :items="tableData.items"
             hide-footer
           >
-            <!-- <template #item-indicator.value="item">
-              {{ item.indicator.operation }} (lbs)
-            </template>
-
-            <template #operation="item">
-              <div class="operation-wrapper">
-                <img
-                  src="../../../assets/edit.png"
-                  class="operation-icon"
-                  @click="deleteItem(item)"
-                />
-                <img
-                  src="../../../assets/edit.png"
-                  class="operation-icon"
-                  @click="editItem(item)"
-                />
-              </div>
-            </template> -->
           </EasyDataTable>
 
-          <base-button @click="editMode" mode="outline">Edytuj</base-button>
+          <base-button
+            @click="this.$store.dispatch('immovable/changeEditMode')"
+            mode="edit"
+            >Edytuj</base-button
+          >
+          <immovable-popup-edit
+            v-if="editStatus"
+            :Building="building"
+            :Flat="flat"
+            @status="reloadList"
+          >
+          </immovable-popup-edit>
+
+          <immovable-popup-delete
+            v-if="deleteBuilding && building"
+            :deleteToggle="deleteToggle"
+            :building="building"
+            @status="reloadList"
+          >
+          </immovable-popup-delete>
+
+          <immovable-popup-delete
+            v-if="deleteFlat && flat"
+            :deleteToggle="deleteToggle2"
+            :flat="flat"
+            @status="reloadList"
+          >
+          </immovable-popup-delete>
         </div>
       </template>
     </half-page>
@@ -67,10 +100,14 @@
 
 <script>
 import ImmovableItem from "./ImmovableItem.vue";
+import ImmovablePopupEdit from "./ImmovablePopupEdit.vue";
+import ImmovablePopupDelete from "./ImmovablePopupDelete.vue";
 
 export default {
   components: {
     ImmovableItem,
+    ImmovablePopupEdit,
+    ImmovablePopupDelete,
   },
   data() {
     return {
@@ -78,12 +115,25 @@ export default {
       flat: null,
       isLoading: false,
       error: null,
+      deleteBuilding: false,
+      deleteFlat: false,
+      search: false,
+      searchQuery: "",
     };
   },
   created() {
     this.loadBuildings();
   },
   methods: {
+    serchToggle() {
+      this.search = !this.search;
+    },
+    deleteToggle() {
+      if (this.building) this.deleteBuilding = !this.deleteBuilding;
+    },
+    deleteToggle2() {
+      if (this.flat) this.deleteFlat = !this.deleteFlat;
+    },
     async loadBuildings() {
       this.isLoading = true;
       try {
@@ -96,10 +146,16 @@ export default {
     handleError() {
       this.error = null;
     },
+    reloadList(status) {
+      if (status == "ok") {
+        this.$store.dispatch("immovable/changeEditMode");
+        this.loadBuildings();
+      }
+    },
     findNodeData(node) {
       this.building = null;
       this.flat = null;
-      const data = this.getNodes;
+      const data = structuredClone(this.getNodes);
 
       for (const key in data) {
         if (data[key].id == node.id && node.staircase) {
@@ -109,6 +165,7 @@ export default {
         var flag = false;
         for (const key2 in data[key].flats) {
           if (data[key].flats[key2].id == node.id && node.typeUse) {
+            data[key].flats[key2].building_id = data[key].id;
             this.flat = data[key].flats[key2];
             flag = true;
             break;
@@ -117,9 +174,16 @@ export default {
         if (flag == true) break;
       }
     },
-    editMode() {},
   },
   computed: {
+    filteredList() {
+      // return null
+      const data = this.getNodes;
+
+      return data.filter((node) => {
+        return node.name.toLowerCase().includes(this.searchQuery.toLowerCase());
+      });
+    },
     immovableBuildingLink() {
       return this.$route.path + "/" + "building";
     },
@@ -132,6 +196,9 @@ export default {
     },
     getNodes() {
       return this.$store.getters["immovable/nodes_2"];
+    },
+    editStatus() {
+      return this.$store.getters["immovable/editStatus"];
     },
     hasNodes() {
       return !this.isLoading && this.$store.getters["immovable/hasNodes"];
@@ -207,7 +274,9 @@ export default {
           },
           {
             name: "Rodzaj użytkowania: ",
-            indicator: { value: this.flat.typeUse == "RENT" ? "Wynajem" : "Na własność"},
+            indicator: {
+              value: this.flat.typeUse == "RENT" ? "Wynajem" : "Na własność",
+            },
           },
         ];
         return { headers, items };
@@ -283,24 +352,4 @@ ul {
   padding: 0;
   text-decoration: none;
 }
-
-/* .operation-wrapper .operation-icon {
-  width: 20px;
-  cursor: pointer;
-}
-.player-wrapper {
-  padding: 5px;
-  display: flex;
-  align-items: center;
-  justify-items: center;
-}
-.avator {
-  margin-right: 10px;
-  display: inline-block;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  object-fit: cover;
-  box-shadow: inset 0 2px 4px 0 rgb(0 0 0 / 10%);
-} */
 </style>

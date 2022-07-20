@@ -1,9 +1,13 @@
 <template>
   <section>
+    <base-dialog :show="!!error" title="Wystąpił błąd!" @close="handleError">
+      <p>{{ error }}</p>
+    </base-dialog>
     <home-page> </home-page>
     <h2>Dodawanie budynku</h2>
     <base-card>
-      <immovable-building-form @save-data-building="saveData"> </immovable-building-form>
+      <immovable-building-form @save-data-building="saveData">
+      </immovable-building-form>
     </base-card>
   </section>
 </template>
@@ -14,11 +18,23 @@ export default {
   components: {
     ImmovableBuildingForm,
   },
-   methods: {
-    saveData(data) {      
-      this.$store.dispatch('immovable/addBuilding', data);
-      this.$router.replace('/immovable');
-    }
-  }
+  data() {
+    return {
+      error: null,
+    };
+  },
+  methods: {
+    async saveData(data) {
+      try {
+        await this.$store.dispatch("immovable/addBuilding", data);
+      } catch (error) {
+        this.error = error.message || "Coś poszło nie tak :)";
+      }
+      if (!this.error) this.$router.replace("/immovable");
+    },
+    handleError() {
+      this.error = null;
+    },
+  },
 };
 </script>
