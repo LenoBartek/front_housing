@@ -13,13 +13,22 @@ const store = createStore({
   state() {
     return {
       host: "http://localhost:8081",
+      activeTabId: 1
     };
   },
   getters: {
     host(state) {
       return state.host;
     },
+    activeTabId(state) {
+      return state.activeTabId;
+    },
   },
+  mutations:{
+    setActiveTabId(state, val){
+      state.activeTabId = val;
+    }
+  }
 });
 
 export default store;

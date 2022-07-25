@@ -1,23 +1,43 @@
 <template>
   <div class="sidebar">
     <ul>
-      <li><a class="active">Nieruchomosci</a></li>
-      <li><a href="#Liczniki">Liczniki</a></li>
-      <li><a href="#Next">Next</a></li>
-      <li><a href="#Next">Next</a></li>
+      <li v-for="mem in members"  :key="mem.id">
+        <a :class="{ active: (mem.id === active)  }" v-on:click="selectMember(mem.id)">
+          {{ mem.category}}
+        </a>
+      </li>
     </ul>
   </div>
 </template>
 
 <script>
+import store from '../../store/index'
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
-
+  name: 'MenuAdmin',
+  data() {
+    return {
+      active: store.getters.activeTabId,
+      members: [
+        {id: 1, category: 'Nieruchomosci', path: '/immovable'},
+        {id: 2, category: 'Mieszkańcy' , path: '/resident'},
+        {id: 3, category: 'Głosowania', path: '/immovable'},
+        {id: 4, category: 'Usterki', path: '/immovable'}
+      ]
+    }
+  },
+  methods: {
+    selectMember: function (id) {
+      store.commit('setActiveTabId',id);
+      this.active = id;
+      this.$router.push(this.members[id-1].path);
+    }
+  }
 }
 </script>
 <style scoped>
 
-.sidebar{ 
+.sidebar{
   position: absolute;
   left: 0%;
   height: 80vh;
@@ -50,9 +70,9 @@ export default {
   border-top: 1px solid rgba(255,255,255,0.05);
 }
 
-.sidebar li a.active {
-  background-color: #04AA6D;
+.active {
   color: white;
+  background-color: green;
 }
 
 .sidebar li a:hover:not(.active) {
