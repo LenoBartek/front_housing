@@ -6,7 +6,8 @@ import NotFound from "./pages/NotFound.vue";
 import ImmovablePage from "./pages/immovable/ImmovablePage.vue";
 import ImmovableBuilding from "./pages/immovable/ImmovableBuilding.vue"
 import ImmovableFlat from "./pages/immovable/ImmovableFlat.vue"
-// import ImmovableId from "./pages/immovable/ImmovableId.vue";
+import ResidentPage from "./pages/resident/ResidentPage.vue"
+import ResidentCreate from "./pages/resident/ResidentCreate.vue"
 
 const router = createRouter({
   history: createWebHistory(),
@@ -20,6 +21,8 @@ const router = createRouter({
      props: true,
     },
     { path: '/immovable/building', component: ImmovableBuilding},
+    { path: '/resident', component: ResidentPage},
+    { path: '/resident/addresident', component: ResidentCreate},
     { path: "/:notFound(.*)", component: NotFound },
   ],
 });
