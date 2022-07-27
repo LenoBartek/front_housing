@@ -37,29 +37,6 @@
       />
     </div>
 
-    <div :class="{ invalid: !typeUse.isValid }">
-      <h3>Rodzaj użytkowania:</h3>
-      <div>
-        <input
-          type="radio"
-          id="rent"
-          value="RENT"
-          v-model="typeUse.val"
-          @blur="clearValidity('typeUse')"
-        />
-        <label for="typeUse">Wynajem</label>
-      </div>
-
-      <input
-        type="radio"
-        id="property"
-        value="PROPERTY"
-        v-model="typeUse.val"
-        @blur="clearValidity('typeUse')"
-      />
-      <label for="typeUse">Na własność</label>
-    </div>
-
     <p v-if="!formIsValid">Uzupełnij poprawnie dane!</p>
     <div v-if="!editStatus">
       <base-button>Dodaj</base-button>
@@ -78,7 +55,7 @@
 <script>
 export default {
   emits: ["save-data-flat"],
-  props: ["storey2", "number2", "nrStaircase2", "areaM22", "typeUse2"],
+  props: ["storey2", "number2", "nrStaircase2", "areaM22"],
   data() {
     return {
       storey: {
@@ -95,10 +72,6 @@ export default {
       },
       areaM2: {
         val: this.areaM22 ? this.areaM22 : null,
-        isValid: true,
-      },
-      typeUse: {
-        val: this.typeUse2 ? this.typeUse2 : "",
         isValid: true,
       },
 
@@ -128,10 +101,6 @@ export default {
         this.areaM2.isValid = false;
         this.formIsValid = false;
       }
-      if (this.typeUse.val === "") {
-        this.typeUse.isValid = false;
-        this.formIsValid = false;
-      }
     },
     submitForm() {
       this.validateForm();
@@ -145,7 +114,6 @@ export default {
         number: this.number.val,
         nrStaircase: this.nrStaircase.val,
         areaM2: this.areaM2.val,
-        typeUse: this.typeUse.val,
       };
 
       this.$emit("save-data-flat", formDataFlat);
