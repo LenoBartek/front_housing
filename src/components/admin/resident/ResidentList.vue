@@ -1,10 +1,10 @@
 <template>
   <section>
     <half-page>
-      <template #button> 
+      <template #button>
         <base-button link :to="residentFormLink"
-            >Dodaj mieszkańca/umowe</base-button
-          >
+          >Dodaj mieszkańca/umowe</base-button
+        >
       </template>
     </half-page>
   </section>
@@ -12,10 +12,10 @@
 
 <script>
 export default {
-    computed: {
-        residentFormLink() {
-            return this.$route.path + "/" + "addresident";
-        }
-    }
+  computed: {
+    residentFormLink() {
+      return this.$route.path + "/" + "addresident";
+    },
+  },
 };
 </script>

@@ -31,14 +31,7 @@
             v-model="searchQuery"
           />
 
-          <div
-            class="card ui fluid"
-            v-for="build in filteredList"
-            :key="build.name"
-            style="margin: 0"
-          >
-            <p>{{ build.name }}</p>
-          </div>
+          <div class="card ui fluid" style="margin: 0"></div>
         </div>
         <div v-if="isLoading">
           <base-spinner> </base-spinner>
@@ -46,7 +39,9 @@
 
         <div v-else-if="hasNodes">
           <immovable-item
-            :nodes="prepareData.tree_nodes"
+            v-for="build in filteredList"
+            :key="build.id"
+            :nodes="[build]"
             @onClick="findNodeData"
           >
           </immovable-item>
@@ -127,6 +122,7 @@ export default {
   methods: {
     serchToggle() {
       this.search = !this.search;
+      if(!this.search) this.searchQuery = '';
     },
     deleteToggle() {
       if (this.building) this.deleteBuilding = !this.deleteBuilding;
@@ -177,12 +173,16 @@ export default {
   },
   computed: {
     filteredList() {
-      // return null
-      const data = this.getNodes;
-
-      return data.filter((node) => {
-        return node.name.toLowerCase().includes(this.searchQuery.toLowerCase());
-      });
+      const data = this.prepareData.tree_nodes;
+      if (data) {
+        return data.filter((node) => {
+          return node.name
+            .toLowerCase()
+            .includes(this.searchQuery.toLowerCase());
+        });
+      } else {
+        return this.prepareData.tree_nodes;
+      }
     },
     immovableBuildingLink() {
       return this.$route.path + "/" + "building";
@@ -272,12 +272,12 @@ export default {
             name: "Powierzchnia (m²): ",
             indicator: { value: this.flat.areaM2 },
           },
-          {
-            name: "Rodzaj użytkowania: ",
-            indicator: {
-              value: this.flat.typeUse == "RENT" ? "Wynajem" : "Na własność",
-            },
-          },
+          // {
+          //   name: "Rodzaj użytkowania: ",
+          //   indicator: {
+          //     value: this.flat.typeUse == "RENT" ? "Wynajem" : "Na własność",
+          //   },
+          // },
         ];
         return { headers, items };
       } else {
@@ -311,6 +311,7 @@ export default {
                 id: data[key].flats[key2].id,
                 name: "Lokal " + data[key].flats[key2].number,
                 typeUse: data[key].flats[key2].typeUse,
+                number: data[key].flats[key2].number,
               };
 
               data[key].children[key3].children.push(child);
@@ -328,6 +329,7 @@ export default {
                   id: data[key].flats[key2].id,
                   name: "Lokal " + data[key].flats[key2].number,
                   typeUse: data[key].flats[key2].typeUse,
+                  number: data[key].flats[key2].number,
                 },
               ],
             };

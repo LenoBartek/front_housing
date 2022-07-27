@@ -25,7 +25,7 @@ export default {
     const responseData = await response.json();
     if (!response.ok) {
       const error = new Error(
-        responseData.message || "Nie udało dodać budynku!"
+        responseData.message || "Nie udało się dodać budynku!"
       );
       throw error;
     }
@@ -57,7 +57,7 @@ export default {
     const responseData = await response.json();
     if (!response.ok) {
       const error = new Error(
-        responseData.message || "Nie udało edytować budynku!"
+        responseData.message || "Nie udało się edytować budynku!"
       );
       throw error;
     }
@@ -75,7 +75,7 @@ export default {
     const responseData = await response.json();
     if (!response.ok) {
       const error = new Error(
-        responseData.message || "Nie udało usunąć budynku!"
+        responseData.message || "Nie udało się usunąć budynku!"
       );
       throw error;
     }
@@ -87,7 +87,6 @@ export default {
       number: data.number,
       nrStaircase: data.nrStaircase,
       areaM2: data.areaM2,
-      typeUse: data.typeUse,
       building: { id: data.building },
     };
 
@@ -112,7 +111,6 @@ export default {
       number: data.number,
       nrStaircase: data.nrStaircase,
       areaM2: data.areaM2,
-      typeUse: data.typeUse,
       building: { id: data.building_id },
     };
 
@@ -146,7 +144,7 @@ export default {
     const responseData = await response.json();
     if (!response.ok) {
       const error = new Error(
-        responseData.message || "Nie udało usunąć mieszkania!"
+        responseData.message || "Nie udało się usunąć mieszkania!"
       );
       throw error;
     }

@@ -10,6 +10,7 @@ import BodyFrame from "./components/admin/ui/BodyFrame.vue";
 import BaseDialog from "./components/admin/ui/BaseDialog.vue";
 import HomePage from './components/admin/HomePage.vue'
 import BaseSpinner from './components/admin/ui/BaseSpinner.vue'
+import ButtonHeader from './components/admin/ui/ButtonHeader.vue'
 
 import "bootstrap/";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -31,5 +32,6 @@ app.component("EasyDataTable", Vue3EasyDataTable);
 app.component("base-dialog", BaseDialog);
 app.component('home-page', HomePage);
 app.component('base-spinner', BaseSpinner);
+app.component('button-header', ButtonHeader);
 
 app.mount("#app");
