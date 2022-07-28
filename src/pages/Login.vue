@@ -1,41 +1,43 @@
 <template>
-  <div class="col-md-12">
-    <div class="card card-container">
-      <div id="logo">
-        <img src="@/assets/logo.png" alt="logo"/>
-      </div>
-      <Form @submit="handleLogin" :validation-schema="schema">
-        <div>
-          <h1 class="text-center">Login</h1>
+  <div class="background-image">
+    <div class="col-md-12">
+      <div class="card card-container">
+        <div id="logo">
+          <img src="@/assets/logo.png" alt="logo" />
         </div>
+        <Form @submit="handleLogin" :validation-schema="schema">
+          <div>
+            <h1 class="text-center">Login</h1>
+          </div>
 
-        <div class="form-group">
-          <label for="username">Username</label>
-          <Field name="username" type="text" class="form-control" />
-          <ErrorMessage name="username" class="error-feedback" />
-        </div>
-        <div class="form-group">
-          <label for="password">Password</label>
-          <Field name="password" type="password" class="form-control" />
-          <ErrorMessage name="password" class="error-feedback" />
-        </div>
+          <div class="form-group">
+            <label for="username">Username</label>
+            <Field name="username" type="text" class="form-control" />
+            <ErrorMessage name="username" class="error-feedback" />
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <Field name="password" type="password" class="form-control" />
+            <ErrorMessage name="password" class="error-feedback" />
+          </div>
 
-        <div class="form-group">
-          <button class="btn btn-success " :disabled="loading" id="button">
-            <span
+          <div class="form-group">
+            <button class="btn btn-success" :disabled="loading" id="button">
+              <span
                 v-show="loading"
                 class="spinner-border spinner-border-sm"
-            ></span>
-            <span>Login</span>
-          </button>
-        </div>
-
-        <div class="form-group">
-          <div v-if="message" class="alert alert-danger" role="alert">
-            {{ message }}
+              ></span>
+              <span>Login</span>
+            </button>
           </div>
-        </div>
-      </Form>
+
+          <div class="form-group">
+            <div v-if="message" class="alert alert-danger" role="alert">
+              {{ message }}
+            </div>
+          </div>
+        </Form>
+      </div>
     </div>
   </div>
 </template>
@@ -76,18 +78,18 @@ export default {
     handleLogin(user) {
       this.loading = true;
       this.$store.dispatch("auth/login", user).then(
-          () => {
-            this.$router.push("/immovable");
-          },
-          (error) => {
-            this.loading = false;
-            this.message =
-                (error.response &&
-                    error.response.data &&
-                    error.response.data.message) ||
-                error.message ||
-                error.toString();
-          }
+        () => {
+          this.$router.push("/immovable");
+        },
+        (error) => {
+          this.loading = false;
+          this.message =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString();
+        }
       );
     },
   },
@@ -140,5 +142,13 @@ label {
   width: 60%;
   height: 70px;
   border-radius: 350px;
+}
+
+.background-image {
+  background: url("@/assets/LoginScreen.png") no-repeat center center fixed;
+  -moz-background-size: cover;
+  -webkit-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
 </style>

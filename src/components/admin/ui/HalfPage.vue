@@ -19,7 +19,6 @@
 
 <style scoped>
 .main-container {
-  
   display: flex;
   width: 100%;
   height: 89%;
@@ -34,6 +33,7 @@
   padding: 0.5em;
   box-shadow: 0 2px 8px rgba(63, 66, 231, 0.26);
   border-radius: 12px;
+  overflow: auto;
 }
 .right-container {
   flex: 0 1 50%;
@@ -43,6 +43,7 @@
   flex-wrap: wrap;
   align-items: flex-start;
   padding: 0.5em;
+
   /* border: 1px solid red; */
   /* background-color: rgb(214, 224, 224); */
   border-radius: 12px;
@@ -59,7 +60,6 @@ header {
 }
 
 header a {
-  text-decoration: none;
   color: #f391e3;
   display: inline-block;
   padding: 0.75rem 1.5rem;

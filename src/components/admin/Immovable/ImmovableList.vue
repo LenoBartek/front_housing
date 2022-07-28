@@ -122,7 +122,7 @@ export default {
   methods: {
     serchToggle() {
       this.search = !this.search;
-      if(!this.search) this.searchQuery = '';
+      if (!this.search) this.searchQuery = "";
     },
     deleteToggle() {
       if (this.building) this.deleteBuilding = !this.deleteBuilding;
@@ -151,7 +151,8 @@ export default {
     findNodeData(node) {
       this.building = null;
       this.flat = null;
-      const data = structuredClone(this.getNodes);
+      //const data = structuredClone(this.getNodes);
+      const data = this.getNodes;
 
       for (const key in data) {
         if (data[key].id == node.id && node.staircase) {
@@ -160,9 +161,9 @@ export default {
         }
         var flag = false;
         for (const key2 in data[key].flats) {
-          if (data[key].flats[key2].id == node.id && node.typeUse) {
-            data[key].flats[key2].building_id = data[key].id;
+          if (data[key].flats[key2].id == node.id && node.nrStaircase) {
             this.flat = data[key].flats[key2];
+            this.flat.building_id = data[key].id;
             flag = true;
             break;
           }
@@ -286,7 +287,7 @@ export default {
     },
     prepareData() {
       const tree_nodes = [];
-      const data = structuredClone(this.getNodes);
+      const data = this.getNodes;
 
       for (const key in data) {
         const tree_node = {
@@ -310,7 +311,7 @@ export default {
               const child = {
                 id: data[key].flats[key2].id,
                 name: "Lokal " + data[key].flats[key2].number,
-                typeUse: data[key].flats[key2].typeUse,
+                nrStaircase: data[key].flats[key2].nrStaircase,
                 number: data[key].flats[key2].number,
               };
 
@@ -328,7 +329,7 @@ export default {
                 {
                   id: data[key].flats[key2].id,
                   name: "Lokal " + data[key].flats[key2].number,
-                  typeUse: data[key].flats[key2].typeUse,
+                  nrStaircase: data[key].flats[key2].nrStaircase,
                   number: data[key].flats[key2].number,
                 },
               ],
@@ -338,9 +339,9 @@ export default {
         }
 
         tree_node.children = data[key].children;
+        delete data[key].children;
         tree_nodes.push(tree_node);
       }
-
       return { tree_nodes };
     },
   },

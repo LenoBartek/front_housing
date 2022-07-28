@@ -4,16 +4,18 @@
   </base-dialog>
   <body-frame class="body">
     <div class="text">
-      <div v-if="currentlyFlat">
-        <h3>Aktualnie wybrany:</h3>
-        <h3>Lokal {{ currentlyFlat.number }}</h3>
-        <h3 v-if="currentlyFlat.building">
-          Budynek {{ currentlyFlat.building.name }}
-        </h3>
-      </div>
-      <div v-else>
-        <h3>Wybierz lokal</h3>
-      </div>
+      <base-card>
+        <div v-if="currentlyFlat">
+          <h3>Aktualnie wybrany:</h3>
+          <h3>Lokal {{ currentlyFlat.number }}</h3>
+          <h3 v-if="currentlyFlat.building">
+            Budynek {{ currentlyFlat.building.name }}
+          </h3>
+        </div>
+        <div v-else>
+          <h3>Wybierz lokal</h3>
+        </div></base-card
+      >
     </div>
 
     <input
@@ -25,7 +27,7 @@
     <div v-if="isLoading">
       <base-spinner> </base-spinner>
     </div>
-    <div v-else-if="!isLoading">
+    <div v-else-if="hasFlats">
       <table class="flats">
         <thead>
           <tr>
@@ -52,7 +54,9 @@
 </template>
 
 <script>
+import BaseCard from "../ui/BaseCard.vue";
 export default {
+  components: { BaseCard },
   data() {
     return {
       error: null,
@@ -103,6 +107,9 @@ export default {
       } else {
         return this.$route.path;
       }
+    },
+    hasFlats() {
+      return !this.isLoading && this.$store.getters["resident/hasFlats"];
     },
   },
 };

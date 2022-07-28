@@ -1,5 +1,5 @@
 <template>
-  <div class="size">
+  <div>
     <tree-browser :nodes="nodes" @onClick="nodeWasClicked"> </tree-browser>
   </div>
 </template>
@@ -24,25 +24,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.list {
-  position: relative;
-  left: 0px;
-  top: 10px;
-  max-width: 300px;
-  max-height: 600px;
-  width: auto;
-  height: auto;
-  padding: 10px;
-}
-
-.size {
-  position: relative;
-  max-width: 800px;
-  max-height: 600px;
-  width: auto;
-  height: auto;
-  overflow: auto;
-}
-</style>
