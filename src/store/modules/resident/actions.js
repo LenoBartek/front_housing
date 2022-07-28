@@ -1,5 +1,7 @@
 import authHeader from "../../../services/auth-header.js";
 
+const initialPassword = "user1234";
+
 export default {
   async loadFlats(context) {
     const response = await fetch(context.rootGetters.host + "/flats", {
@@ -41,12 +43,11 @@ export default {
         lastname: data.lastname,
         username: data.username,
         email: data.email,
-        phonenumber: data.phonenumber,
-        password: "1234",
-        role: "USER",
+        phoneNumber: data.phonenumber,
+        password: initialPassword
       },
       flat: {
-        id: data.flat_id,
+        id: data.flat_id
       },
     };
     console.log("contractData: ", ContractData);
