@@ -11,6 +11,7 @@ import ResidentSelectFlat from "./pages/resident/ResidentSelectFlat.vue"
 import ResidentCreate from "./pages/resident/ResidentCreate.vue"
 import VotePage from "./pages/vote/VotePage.vue"
 import FaultPage from  "./pages/fault/FaultPage.vue"
+import AccountPage from './pages/account/AccountPage.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -32,6 +33,7 @@ const router = createRouter({
     },
     { path: '/vote', component: VotePage},
     { path: '/fault', component: FaultPage},
+    { path: '/account', component: AccountPage},
     { path: "/:notFound(.*)", component: NotFound },
   ],
 });

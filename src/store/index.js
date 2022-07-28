@@ -5,6 +5,7 @@ import immovableModule from "./modules/immovable/index.js";
 import residentModule from "./modules/resident/index.js"
 import voteModule from "./modules/vote/index.js"
 import faultModule from "./modules/fault/index.js"
+import accountModule from './modules/account/index.js'
 
 const store = createStore({
   modules: {
@@ -13,6 +14,7 @@ const store = createStore({
     resident: residentModule,
     vote: voteModule,
     fault: faultModule,
+    account: accountModule,
   },
   state() {
     return {

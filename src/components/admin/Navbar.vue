@@ -12,7 +12,7 @@
           <img class="rounded-circle" width="40" height="40" src="@/assets/avatar.png" alt="users avatar">
       </div>
       <div id="usersButton">
-        <button type="button" class="btn btn-light">konto</button>
+        <button type="button" class="btn btn-light" @click="accountLink">konto</button>
         <button type="button" class="btn btn-success ml-3 mr-3" @click="logOut">wyloguj</button>
       </div>
     </div>
@@ -38,6 +38,9 @@ export default {
     logOut() {
       this.$store.dispatch('auth/logout');
       this.$router.push('/login');
+    },
+    accountLink() {
+      this.$router.replace("/account");
     }
   }
 }
