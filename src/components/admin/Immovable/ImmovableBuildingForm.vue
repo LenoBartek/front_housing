@@ -93,11 +93,12 @@
 
     <p v-if="!formIsValid">Uzupełnij poprawnie dane!</p>
     <div v-if="!editStatus">
-      <base-button>Dodaj</base-button>
+      <base-button class="btn-base">Dodaj</base-button>
     </div>
     <div v-else-if="editStatus">
-      <base-button>Zatwierdź</base-button>
+      <base-button class="btn-base">Zatwierdź</base-button>
       <base-button
+        class="btn-base"
         mode="delete"
         @click="this.$store.dispatch('immovable/changeEditMode')"
         >Anuluj</base-button
@@ -290,5 +291,9 @@ h3 {
 .invalid input,
 .invalid textarea {
   border: 1px solid red;
+}
+
+.btn-base {
+  margin-top: 15px;
 }
 </style>

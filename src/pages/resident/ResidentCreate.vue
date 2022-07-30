@@ -31,7 +31,7 @@ export default {
         this.error = error.message || "Coś poszło nie tak :)";
       }
 
-      //if (!this.error) this.$router.replace("/resident");
+      if (!this.error) this.$router.replace("/resident");
     },
     handleError() {
       this.error = null;

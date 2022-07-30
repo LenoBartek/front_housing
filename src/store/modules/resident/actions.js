@@ -4,7 +4,7 @@ const initialPassword = "user1234";
 
 export default {
   async loadFlats(context) {
-    const response = await fetch(context.rootGetters.host + "/flats", {
+    const response = await fetch(context.rootGetters.host + "/flats/available", {
       headers: authHeader(),
     });
     const responseData = await response.json();
@@ -24,7 +24,6 @@ export default {
         number: responseData[key].number,
         nrStaircase: responseData[key].nrStaircase,
         areaM2: responseData[key].areaM2,
-        typeUse: responseData[key].typeUse,
         building: responseData[key].building,
       };
       flats.push(flat);
@@ -50,7 +49,6 @@ export default {
         id: data.flat_id
       },
     };
-    console.log("contractData: ", ContractData);
 
     const response = await fetch(context.rootGetters.host + "/contracts", {
       method: "POST",
@@ -68,7 +66,7 @@ export default {
   },
 
   async loadRates(context) {
-    const response = await fetch(context.rootGetters.host + `/rates/${1}`, {
+    const response = await fetch(context.rootGetters.host + '/rates', {
       headers: authHeader(),
     });
 
@@ -81,17 +79,17 @@ export default {
     }
 
     const rates = {
-      id: responseData.id,
-      heatingM2: responseData.heatingM2,
-      renovationFundM2: responseData.renovationFundM2,
-      rentRentM2: responseData.rentRentM2,
-      rentPropertyM2: responseData.rentPropertyM2,
-      exploitationM2: responseData.exploitationM2,
-      administrationM2: responseData.administrationM2,
-      warmWaterPer: responseData.warmWaterPer,
-      coldWaterPer: responseData.coldWaterPer,
-      sewagePer: responseData.sewagePer,
-      rubbishPer: responseData.rubbishPer,
+      id: responseData[0].id,
+      heatingM2: responseData[0].heatingM2,
+      renovationFundM2: responseData[0].renovationFundM2,
+      rentRentM2: responseData[0].rentRentM2,
+      rentPropertyM2: responseData[0].rentPropertyM2,
+      exploitationM2: responseData[0].exploitationM2,
+      administrationM2: responseData[0].administrationM2,
+      warmWaterPer: responseData[0].warmWaterPer,
+      coldWaterPer: responseData[0].coldWaterPer,
+      sewagePer: responseData[0].sewagePer,
+      rubbishPer: responseData[0].rubbishPer,
     };
 
     context.commit("setRates", rates);

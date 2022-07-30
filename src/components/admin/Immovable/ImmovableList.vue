@@ -60,6 +60,7 @@
           </EasyDataTable>
 
           <base-button
+            class="btn-base"
             @click="this.$store.dispatch('immovable/changeEditMode')"
             mode="edit"
             >Edytuj</base-button
@@ -354,5 +355,9 @@ ul {
   margin: 0;
   padding: 0;
   text-decoration: none;
+}
+
+.btn-base {
+  margin-top: 15px;
 }
 </style>

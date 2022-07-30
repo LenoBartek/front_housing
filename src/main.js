@@ -14,7 +14,14 @@ import ButtonHeader from './components/admin/ui/ButtonHeader.vue'
 
 import "bootstrap/";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { FontAwesomeIcon } from "./plugins/font-awesome";
+
+// import { FontAwesomeIcon } from "./plugins/font-awesome";
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { faTwitter } from '@fortawesome/free-brands-svg-icons'
+import { faUserSecret } from '@fortawesome/free-solid-svg-icons'
+library.add(faTwitter, faUserSecret)
+
 import Vue3EasyDataTable from "vue3-easy-data-table";
 import "vue3-easy-data-table/dist/style.css";
 

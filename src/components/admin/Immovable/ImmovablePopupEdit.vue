@@ -29,7 +29,6 @@
               :number2="this.Flat.number"
               :nrStaircase2="this.Flat.nrStaircase"
               :areaM22="this.Flat.areaM2"
-              :typeUse2="this.Flat.typeUse"
             >
             </immovable-flat-form>
           </div>

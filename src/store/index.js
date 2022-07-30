@@ -19,7 +19,7 @@ const store = createStore({
   state() {
     return {
       host: "http://localhost:8081",
-      activeTabId: 1
+      activeTabId: 1,
     };
   },
   getters: {
@@ -33,7 +33,7 @@ const store = createStore({
   mutations:{
     setActiveTabId(state, val){
       state.activeTabId = val;
-    }
+    },
   }
 });
 

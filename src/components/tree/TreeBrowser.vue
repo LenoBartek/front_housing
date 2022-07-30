@@ -5,7 +5,27 @@
         :style="{ 'margin-left': `${depth * 25}px` }"
         class="type"
         @click="nodeClicked(node)"
-        >{{ isExpanded(node) ? "&#9660;" : "&#9658;" }}
+        v-if="depth == 0"
+      >
+        <i class="fa-solid fa-building"></i>
+      </span>
+
+      <span
+        :style="{ 'margin-left': `${depth * 25}px` }"
+        class="type"
+        @click="nodeClicked(node)"
+        v-if="depth == 1"
+      >
+        <i class="fa-solid fa-stairs"></i>
+      </span>
+
+      <span
+        :style="{ 'margin-left': `${depth * 25}px` }"
+        class="type"
+        @click="nodeClicked(node)"
+        v-if="depth == 2"
+      >
+        <i class="fa-solid fa-house"></i>
       </span>
 
       <span tabindex="1" @click="isSelected(node, depth)"
@@ -80,5 +100,14 @@ span:focus {
 .type {
   margin-right: 10px;
   cursor: pointer;
+}
+
+.fa-solid {
+  color: rgb(134, 111, 111);
+}
+
+.fa-solid:hover {
+  content: "";
+  color: rgb(123, 202, 103);
 }
 </style>

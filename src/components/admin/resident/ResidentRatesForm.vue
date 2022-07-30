@@ -21,7 +21,7 @@
       />
     </div>
     <div :class="{ invalid: !rentRentM2.isValid }">
-      <label for="rentRentM2">Wynajem (m²)??</label>
+      <label for="rentRentM2">Czynsz wynajem (m²)</label>
       <input
         type="number"
         step="0.01"
@@ -31,7 +31,7 @@
       />
     </div>
     <div :class="{ invalid: !rentPropertyM2.isValid }">
-      <label for="rentPropertyM2">Wynajem (m²)??</label>
+      <label for="rentPropertyM2">Czynsz własność (m²)</label>
       <input
         type="number"
         step="0.01"

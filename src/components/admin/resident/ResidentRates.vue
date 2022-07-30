@@ -20,11 +20,11 @@
           <td>{{ getRates.renovationFundM2 }}</td>
         </tr>
         <tr>
-          <td>Wynajem (m²)??</td>
+          <td>Czynsz Wynajem (m²)</td>
           <td>{{ getRates.rentRentM2 }}</td>
         </tr>
         <tr>
-          <td>Wynajem (m²)??</td>
+          <td>Czynsz własność (m²)</td>
           <td>{{ getRates.rentPropertyM2 }}</td>
         </tr>
         <tr>
