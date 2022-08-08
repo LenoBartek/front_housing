@@ -52,7 +52,7 @@
 
 header {
   width: 100%;
-  height: 5rem;
+  padding: 0.75vw 1.5vw;
   background-color: #e0e0e0;
   display: flex;
   justify-content: left;

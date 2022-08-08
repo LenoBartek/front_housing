@@ -17,5 +17,6 @@
   background-color: #f1f1f1;
   box-sizing: border-box;
   display: inline-block;
+  overflow: auto;
 }
 </style>

@@ -32,8 +32,8 @@ export default {
 <style scoped>
 button,
 a {
-  text-decoration: none;
-  padding: 0.75rem 1.5rem;
+  text-decoration: none !important;
+  padding: 0.75vw 1.5vw;
   font: inherit;
   background-color: #4f925b;
   border: 1px solid #4f925b;

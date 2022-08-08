@@ -1,9 +1,9 @@
 <template>
   <div class="background-image">
-    <div class="col-md-12">
+    <div>
       <div class="card card-container">
-        <div id="logo">
-          <img src="@/assets/logo.png" alt="logo" />
+        <div class="logo">
+          <img class="img" src="@/assets/logo.png" alt="logo" />
         </div>
         <Form @submit="handleLogin" :validation-schema="schema">
           <div>
@@ -101,15 +101,21 @@ label {
   display: block;
   margin-top: 10px;
 }
+
 .card-container.card {
   height: 80%;
-  max-width: 600px !important;
-  padding: 40px 40px;
+  max-width: 500px !important;
+  padding: 40px;
 }
+
+.img {
+  width: 15vw;
+}
+
 .card {
   background-color: #f7f7f7;
   padding: 20px 25px 30px;
-  margin: 50px auto 25px;
+  margin: 0px auto 0px;
   -moz-border-radius: 2px;
   -webkit-border-radius: 2px;
   border-radius: 50px;
@@ -121,7 +127,7 @@ label {
 .error-feedback {
   color: red;
 }
-#logo {
+.logo {
   display: flex;
   justify-content: center;
   align-items: center;
