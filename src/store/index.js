@@ -20,7 +20,7 @@ const store = createStore({
   },
   state() {
     return {
-      host: "http://localhost:8081",
+      host: "https://habapp.azurewebsites.net/",
       activeTabId: 1,
     };
   },
