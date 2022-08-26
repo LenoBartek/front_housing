@@ -1,15 +1,15 @@
 <template>
   <section>
     <home-page> </home-page>
-    <fault-list> </fault-list>
+    <notices-list> </notices-list>
   </section>
 </template>
 
 <script>
-import FaultList from "../../components/admin/fault/FaultList.vue"
+import NoticesList from "../../components/admin/notices/NoticesList.vue"
 export default {
   components: {
-    FaultList,
+    NoticesList,
   }
 
 };

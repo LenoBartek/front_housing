@@ -4,9 +4,12 @@ const initialPassword = "user1234";
 
 export default {
   async loadFlats(context) {
-    const response = await fetch(context.rootGetters.host + "/flats/available", {
-      headers: authHeader(),
-    });
+    const response = await fetch(
+      context.rootGetters.host + "/flats/available",
+      {
+        headers: authHeader(),
+      }
+    );
     const responseData = await response.json();
 
     if (!response.ok) {
@@ -31,6 +34,139 @@ export default {
     context.commit("setFlats", flats);
   },
 
+  async loadUsers(context) {
+    const response = await fetch(
+      context.rootGetters.host + "/users?role=USER",
+      {
+        headers: authHeader(),
+      }
+    );
+    const responseData = await response.json();
+
+    if (!response.ok) {
+      const error = new Error(
+        responseData.message || "Nie udało się pobrać danych!"
+      );
+      throw error;
+    }
+
+    const users = [];
+    for (const key in responseData) {
+      const user = {
+        id: responseData[key].id,
+        firstname: responseData[key].firstname,
+        lastname: responseData[key].lastname,
+        phoneNumber: responseData[key].phoneNumber,
+        username: responseData[key].username,
+        email: responseData[key].email,
+      };
+      users.push(user);
+    }
+
+    context.commit("setUsers", users);
+  },
+
+  async deleteUser(context, id) {
+    const response = await fetch(context.rootGetters.host + `/users/${id}`, {
+      method: "DELETE",
+      headers: authHeader(),
+    });
+
+    if (!response.ok) {
+      const error = new Error("Nie udało się usunąć budynku!");
+      throw error;
+    }
+  },
+
+  async loadUserDetails(context, id) {
+    const response = await fetch(context.rootGetters.host + `/users/${id}`, {
+      headers: authHeader(),
+    });
+    const responseData = await response.json();
+
+    if (!response.ok) {
+      const error = new Error(
+        responseData.message || "Nie udało się pobrać danych!"
+      );
+      throw error;
+    }
+
+    const detail = {
+      user: {
+        id: responseData.id,
+        firstname: responseData.firstname,
+        lastname: responseData.lastname,
+        phoneNumber: responseData.phoneNumber,
+        username: responseData.username,
+        email: responseData.email,
+      },
+      contract: {
+        id: responseData.contract.id,
+        type: responseData.contract.type,
+        amountPeople: responseData.contract.amountPeople,
+        startTime: responseData.contract.startTime,
+        finishTime: responseData.contract.finishTime,
+      },
+      flat: {
+        id: responseData.contract.flat.id,
+        storey: responseData.contract.flat.storey,
+        number: responseData.contract.flat.number,
+        nrStaircase: responseData.contract.flat.nrStaircase,
+        areaM2: responseData.contract.flat.areaM2,
+      },
+      building: {
+        id: responseData.contract.flat.building.id,
+        name: responseData.contract.flat.building.name,
+        town: responseData.contract.flat.building.town,
+        street: responseData.contract.flat.building.street,
+        number: responseData.contract.flat.building.number,
+        zipCode: responseData.contract.flat.building.zipCode,
+      },
+      fee: {
+        id: responseData.contract.fee.id,
+        heating: responseData.contract.fee.heating,
+        renovationFund: responseData.contract.fee.renovationFund,
+        rent: responseData.contract.fee.rent,
+        exploitation: responseData.contract.fee.exploitation,
+        administration: responseData.contract.fee.administration,
+        warmWater: responseData.contract.fee.warmWater,
+        coldWater: responseData.contract.fee.coldWater,
+        sewage: responseData.contract.fee.sewage,
+        rubbish: responseData.contract.fee.rubbish,
+        total: responseData.contract.fee.total,
+      },
+    };
+
+    context.commit("setUsersDetails", detail);
+  },
+
+  async loadContract(context, id) {
+    const response = await fetch(
+      context.rootGetters.host + `/users/${id}/contract`,
+      {
+        headers: authHeader(),
+      }
+    );
+    const responseData = await response.json();
+
+    if (!response.ok) {
+      const error = new Error(
+        responseData.message || "Nie udało się pobrać danych!"
+      );
+      throw error;
+    }
+
+    const contract = {
+      id: responseData.contract.id,
+      type: responseData.contract.type,
+      amountPeople: responseData.contract.amountPeople,
+      startTime: responseData.contract.startTime,
+      finishTime: responseData.contract.finishTime,
+    };
+
+    context.commit("setContract", contract);
+  },
+
   async addContract(context, data) {
     const ContractData = {
       type: data.contract.type,
@@ -42,11 +178,11 @@ export default {
         lastname: data.lastname,
         username: data.username,
         email: data.email,
-        phoneNumber: data.phonenumber,
-        password: initialPassword
+        phoneNumber: data.phoneNumber,
+        password: initialPassword,
       },
       flat: {
-        id: data.flat_id
+        id: data.flat_id,
       },
     };
 
@@ -65,8 +201,62 @@ export default {
     }
   },
 
+  async editResident(context, data) {
+    var residentData = null;
+
+    if (data.user_id && data.username) {
+      residentData = {
+        firstname: data.firstname,
+        lastname: data.lastname,
+        username: data.username,
+        email: data.email,
+        phoneNumber: data.phoneNumber,
+      };
+
+      const response = await fetch(
+        context.rootGetters.host + `/users/${data.user_id}`,
+        {
+          method: "PUT",
+          headers: authHeader(),
+          body: JSON.stringify(residentData),
+        }
+      );
+
+      const responseData = await response.json();
+      if (!response.ok) {
+        const error = new Error(
+          responseData.message || "Nie udało się dodać budynku!"
+        );
+        throw error;
+      }
+    } else if (data.contract_id && data.contract.amountPeople) {
+      residentData = {
+        type: data.contract.type,
+        amountPeople: data.contract.amountPeople,
+        finishTime: data.contract.finishTime + "T12:00:00Z",
+      };
+
+      const response = await fetch(
+        context.rootGetters.host + `/contracts/${data.contract_id}`,
+        {
+          method: "PUT",
+          headers: authHeader(),
+          body: JSON.stringify(residentData),
+        }
+      );
+
+      const responseData = await response.json();
+      if (!response.ok) {
+        const error = new Error(
+          responseData.message || "Nie udało się dodać budynku!"
+        );
+        throw error;
+      }
+    }
+  },
+
   async loadRates(context) {
-    const response = await fetch(context.rootGetters.host + '/rates', {
+    const response = await fetch(context.rootGetters.host + "/rates", {
       headers: authHeader(),
     });
 

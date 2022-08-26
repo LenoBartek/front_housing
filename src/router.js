@@ -1,17 +1,21 @@
 import { createRouter, createWebHistory } from "vue-router";
 
 import Login from "./pages/Login.vue";
-import Register from "./pages/Register.vue";
 import NotFound from "./pages/NotFound.vue";
-import ImmovablePage from "./pages/immovable/ImmovablePage.vue";
-import ImmovableBuilding from "./pages/immovable/ImmovableBuilding.vue"
-import ImmovableFlat from "./pages/immovable/ImmovableFlat.vue"
-import ResidentPage from "./pages/resident/ResidentPage.vue"
-import ResidentSelectFlat from "./pages/resident/ResidentSelectFlat.vue"
-import ResidentCreate from "./pages/resident/ResidentCreate.vue"
-import VotePage from "./pages/vote/VotePage.vue"
-import FaultPage from  "./pages/fault/FaultPage.vue"
-import AccountPage from './pages/account/AccountPage.vue'
+
+const Register = () => import("./pages/Register.vue");
+const ImmovablePage = () => import("./pages/immovable/ImmovablePage.vue");
+const ImmovableBuilding = () => import("./pages/immovable/ImmovableBuilding.vue");
+const ImmovableFlat = () => import("./pages/immovable/ImmovableFlat.vue");
+const ResidentPage = () => import("./pages/resident/ResidentPage.vue");
+const ResidentSelectFlat = () => import("./pages/resident/ResidentSelectFlat.vue");
+const ResidentCreate = () => import("./pages/resident/ResidentCreate.vue");
+const VotePage = () => import("./pages/vote/VotePage.vue");
+const FaultPage = () => import("./pages/fault/FaultPage.vue");
+const AccountPage = () => import("./pages/account/AccountPage.vue");
+const NoticesPage = () => import("./pages/notices/NoticesPage.vue");
+const NoticesBuilding = () => import("./pages/notices/NoticesBuilding.vue");
+const FaultBuilding = () => import("./pages/fault/FaultBuilding.vue");
 
 const router = createRouter({
   history: createWebHistory(),
@@ -19,21 +23,22 @@ const router = createRouter({
     { path: "/", redirect: "/login" },
     { path: "/login", component: Login },
     { path: "/register", component: Register },
-    { path: "/immovable", component: ImmovablePage},
-    { path: "/immovable/:id/flat",
-     component: ImmovableFlat,
-     props: true,
+    { path: "/immovables", component: ImmovablePage },
+    { path: "/immovables/:id/flat", component: ImmovableFlat, props: true },
+    { path: "/immovables/building", component: ImmovableBuilding },
+    { path: "/residents", component: ResidentPage },
+    { path: "/residents/addresident", component: ResidentSelectFlat },
+    {
+      path: "/residents/addresident/:id",
+      component: ResidentCreate,
+      props: true,
     },
-    { path: '/immovable/building', component: ImmovableBuilding},
-    { path: '/resident', component: ResidentPage},
-    { path: '/resident/addresident', component: ResidentSelectFlat},
-    { path: '/resident/addresident/:id', 
-     component: ResidentCreate,
-     props: true,
-    },
-    { path: '/vote', component: VotePage},
-    { path: '/fault', component: FaultPage},
-    { path: '/account', component: AccountPage},
+    { path: "/votes", component: VotePage },
+    { path: "/faults", component: FaultPage },
+    { path: "/faults/addfault", component: FaultBuilding },
+    { path: "/account", component: AccountPage },
+    { path: "/notices", component: NoticesPage },
+    { path: "/notices/addnotice", component: NoticesBuilding },
     { path: "/:notFound(.*)", component: NotFound },
   ],
 });

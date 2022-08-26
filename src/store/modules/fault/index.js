@@ -6,7 +6,10 @@ export default {
   namespaced: true,
   state() {
     return {
-      
+      faults: null,
+      faultsDetails: null,
+      faultsImage: null,
+      error: null,
     };
   },
   mutations,

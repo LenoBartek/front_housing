@@ -43,6 +43,7 @@
   flex-wrap: wrap;
   align-items: flex-start;
   padding: 0.5em;
+  overflow: auto;
 
   /* border: 1px solid red; */
   /* background-color: rgb(214, 224, 224); */
@@ -52,7 +53,7 @@
 
 header {
   width: 100%;
-  padding: 0.75vw 1.5vw;
+  padding: 0.55vw 1.5vw;
   background-color: #e0e0e0;
   display: flex;
   justify-content: left;

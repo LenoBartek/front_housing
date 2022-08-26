@@ -152,7 +152,6 @@ export default {
     findNodeData(node) {
       this.building = null;
       this.flat = null;
-      //const data = structuredClone(this.getNodes);
       const data = this.getNodes;
 
       for (const key in data) {
@@ -274,12 +273,6 @@ export default {
             name: "Powierzchnia (m²): ",
             indicator: { value: this.flat.areaM2 },
           },
-          // {
-          //   name: "Rodzaj użytkowania: ",
-          //   indicator: {
-          //     value: this.flat.typeUse == "RENT" ? "Wynajem" : "Na własność",
-          //   },
-          // },
         ];
         return { headers, items };
       } else {

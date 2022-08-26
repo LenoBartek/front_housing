@@ -33,14 +33,14 @@ export default {
 button,
 a {
   text-decoration: none !important;
-  padding: 0.75vw 1.5vw;
+  padding: 0.55vmax 1.5vmax;
   font: inherit;
   background-color: #4f925b;
   border: 1px solid #4f925b;
-  color: white;
+  color: white !important;
   cursor: pointer;
   border-radius: 30px;
-  margin-right: 0.5rem;
+  margin-right: 0.6rem;
   display: inline-block;
 }
 

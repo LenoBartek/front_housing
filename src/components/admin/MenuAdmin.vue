@@ -22,10 +22,11 @@ export default {
     return {
       active: store.getters.activeTabId,
       members: [
-        { id: 1, category: "Nieruchomosci", path: "/immovable" },
-        { id: 2, category: "Mieszkańcy", path: "/resident" },
-        { id: 3, category: "Głosowania", path: "/vote" },
-        { id: 4, category: "Usterki", path: "/fault" },
+        { id: 1, category: "Nieruchomosci", path: "/immovables" },
+        { id: 2, category: "Mieszkańcy", path: "/residents" },
+        { id: 3, category: "Głosowania", path: "/votes" },
+        { id: 4, category: "Ogłoszenia", path: "/notices" },
+        { id: 5, category: "Usterki", path: "/faults" },
       ],
     };
   },

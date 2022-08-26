@@ -14,7 +14,7 @@
 <style scoped>
 header {
   width: 100%;
-  padding: 0.75vw 1.5vw;
+  padding: 0.55vw 1.5vw;
   background-color: #e0e0e0;
   display: flex;
   justify-content: left;

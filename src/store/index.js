@@ -2,10 +2,11 @@ import { createStore } from "vuex";
 
 import { auth } from "./auth.module";
 import immovableModule from "./modules/immovable/index.js";
-import residentModule from "./modules/resident/index.js"
-import voteModule from "./modules/vote/index.js"
-import faultModule from "./modules/fault/index.js"
-import accountModule from './modules/account/index.js'
+import residentModule from "./modules/resident/index.js";
+import voteModule from "./modules/vote/index.js";
+import faultModule from "./modules/fault/index.js";
+import accountModule from "./modules/account/index.js";
+import noticesModule from "./modules/notices/index.js";
 
 const store = createStore({
   modules: {
@@ -15,6 +16,7 @@ const store = createStore({
     vote: voteModule,
     fault: faultModule,
     account: accountModule,
+    notices: noticesModule,
   },
   state() {
     return {
@@ -30,11 +32,11 @@ const store = createStore({
       return state.activeTabId;
     },
   },
-  mutations:{
-    setActiveTabId(state, val){
+  mutations: {
+    setActiveTabId(state, val) {
       state.activeTabId = val;
     },
-  }
+  },
 });
 
 export default store;

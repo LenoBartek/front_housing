@@ -1,113 +1,119 @@
 <template>
   <form @submit.prevent="submitForm">
-    <div :class="{ invalid: !firstname.isValid }">
-      <label for="firstname">Imie</label>
-      <input
-        type="text"
-        id="firstname"
-        v-model.trim="firstname.val"
-        @blur="clearValidity('firstname')"
-      />
+    <div v-if="this.data == 'user' || this.data == null">
+      <div :class="{ invalid: !firstname.isValid }">
+        <label for="firstname">Imie</label>
+        <input
+          type="text"
+          id="firstname"
+          v-model.trim="firstname.val"
+          @blur="clearValidity('firstname')"
+        />
+      </div>
+      <div :class="{ invalid: !lastname.isValid }">
+        <label for="lastname">Nazwisko</label>
+        <input
+          type="text"
+          id="lastname"
+          v-model.trim="lastname.val"
+          @blur="clearValidity('lastname')"
+        />
+      </div>
+      <div :class="{ invalid: !username.isValid }">
+        <label for="username">Login</label>
+        <input
+          type="text"
+          id="username"
+          v-model.trim="username.val"
+          @blur="clearValidity('username')"
+        />
+      </div>
+      <div :class="{ invalid: !email.isValid }">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          v-model.trim="email.val"
+          @blur="clearValidity('email')"
+        />
+      </div>
+      <div :class="{ invalid: !phoneNumber.isValid }">
+        <label for="phoneNumber">Numer telefonu</label>
+        <input
+          type="tel"
+          pattern="[0-9]{3}-[0-9]{3}-[0-9]{3}"
+          placeholder="123-456-789"
+          id="phoneNumber"
+          v-model.trim="phoneNumber.val"
+          @blur="clearValidity('phoneNumber')"
+        />
+      </div>
     </div>
-    <div :class="{ invalid: !lastname.isValid }">
-      <label for="lastname">Nazwisko</label>
-      <input
-        type="text"
-        id="lastname"
-        v-model.trim="lastname.val"
-        @blur="clearValidity('lastname')"
-      />
+    <div v-if="this.data == 'contract' || this.data == null">
+      <div :class="{ invalid: !amountPeople.isValid }">
+        <label for="amountPeople">Ilość osób</label>
+        <input
+          type="number"
+          id="amountPeople"
+          v-model.trim="amountPeople.val"
+          @blur="clearValidity('amountPeople')"
+        />
+      </div>
+      <div v-if="!this.editToggle" :class="{ invalid: !startTime.isValid }">
+        <label for="startTime">Rozpoczęcie najmu</label>
+        <input
+          type="date"
+          min="2000-01-02"
+          id="startTime"
+          v-model.trim="startTime.val"
+          @blur="clearValidity('startTime')"
+        />
+      </div>
+      <div :class="{ invalid: !finishTime.isValid }">
+        <label for="finishTime">Zakończenie najmu</label>
+        <input
+          type="date"
+          min="2000-01-02"
+          id="finishTime"
+          v-model.trim="finishTime.val"
+          @blur="clearValidity('finishTime')"
+        />
+      </div>
     </div>
-    <div :class="{ invalid: !username.isValid }">
-      <label for="username">Login</label>
-      <input
-        type="text"
-        id="username"
-        v-model.trim="username.val"
-        @blur="clearValidity('username')"
-      />
-    </div>
-    <div :class="{ invalid: !email.isValid }">
-      <label for="email">Email</label>
-      <input
-        type="email"
-        id="email"
-        v-model.trim="email.val"
-        @blur="clearValidity('email')"
-      />
-    </div>
-    <div :class="{ invalid: !phonenumber.isValid }">
-      <label for="phonenumber">Numer telefonu</label>
-      <input
-        type="tel"
-        pattern="[0-9]{3}-[0-9]{3}-[0-9]{3}"
-        placeholder="123-456-789"
-        id="phonenumber"
-        v-model.trim="phonenumber.val"
-        @blur="clearValidity('phonenumber')"
-      />
-    </div>
-    <div :class="{ invalid: !amountPeople.isValid }">
-      <label for="amountPeople">Ilość osób</label>
-      <input
-        type="number"
-        id="amountPeople"
-        v-model.trim="amountPeople.val"
-        @blur="clearValidity('amountPeople')"
-      />
-    </div>
-    <div :class="{ invalid: !startTime.isValid }">
-      <label for="startTime">Rozpoczęcie najmu</label>
-      <input
-        type="date"
-        min="2000-01-02"
-        id="startTime"
-        v-model.trim="startTime.val"
-        @blur="clearValidity('startTime')"
-      />
-    </div>
-    <div :class="{ invalid: !finishTime.isValid }">
-      <label for="finishTime">Zakończenie najmu</label>
-      <input
-        type="date"
-        min="2000-01-02"
-        id="finishTime"
-        v-model.trim="finishTime.val"
-        @blur="clearValidity('finishTime')"
-      />
-    </div>
-    <div :class="{ invalid: !type.isValid }">
-      <h3>Rodzaj użytkowania:</h3>
-      <div>
+    <div v-if="this.data == null">
+      <div :class="{ invalid: !type.isValid }">
+        <h3>Rodzaj użytkowania:</h3>
+        <div>
+          <input
+            type="radio"
+            id="lease_agreement"
+            value="LEASE_AGREEMENT"
+            v-model="type.val"
+            @blur="clearValidity('type')"
+          />
+          <label for="type">Wynajem</label>
+        </div>
+
         <input
           type="radio"
-          id="lease_agreement"
-          value="LEASE_AGREEMENT"
+          id="ownership_agreement"
+          value="OWNERSHIP_AGREEMENT"
           v-model="type.val"
           @blur="clearValidity('type')"
         />
-        <label for="type">Wynajem</label>
+        <label for="type">Na własność</label>
       </div>
-
-      <input
-        type="radio"
-        id="ownership_agreement"
-        value="OWNERSHIP_AGREEMENT"
-        v-model="type.val"
-        @blur="clearValidity('type')"
-      />
-      <label for="type">Na własność</label>
     </div>
-
     <p v-if="!formIsValid">Uzupełnij poprawnie dane!</p>
-     <div v-if="!this.editToggle">
+    <div v-if="!this.editToggle">
       <base-button class="btn-base">Dodaj</base-button>
     </div>
     <div v-else-if="this.editToggle">
       <base-button class="btn-base">Zatwierdź</base-button>
-      <base-button class="btn-base" mode="delete" @click="this.editToggle">Anuluj</base-button>
+      <base-button class="btn-base" mode="delete" @click="this.editToggle"
+        >Anuluj</base-button
+      >
     </div>
-
   </form>
 </template>
 
@@ -119,11 +125,11 @@ export default {
     "firstname2",
     "lastname2",
     "email2",
-    "phonenumber2",
+    "phoneNumber2",
     "amountPeople2",
-    "startTime2",
     "finishTime2",
     "type2",
+    "data",
     "editToggle",
   ],
   data() {
@@ -144,8 +150,8 @@ export default {
         val: this.email2 ? this.email2 : null,
         isValid: true,
       },
-      phonenumber: {
-        val: this.phonenumber2 ? this.phonenumber2 : "",
+      phoneNumber: {
+        val: this.phoneNumber2 ? this.phoneNumber2 : "",
         isValid: true,
       },
       amountPeople: {
@@ -153,11 +159,11 @@ export default {
         isValid: true,
       },
       startTime: {
-        val: this.startTime2 ? this.startTime2 : null,
+        val: null,
         isValid: true,
       },
       finishTime: {
-        val: this.finishTime2 ? this.finishTime2 : null,
+        val: this.finishTime2 ? this.formatDate(this.finishTime2) : null,
         isValid: true,
       },
       type: {
@@ -172,44 +178,61 @@ export default {
     clearValidity(input) {
       this[input].isValid = true;
     },
+    formatDate(date) {
+      const date2 = new Date(date);
+
+      var month = "" + (date2.getMonth() + 1),
+        day = "" + date2.getDate(),
+        year = date2.getFullYear();
+
+      if (month.length < 2) month = "0" + month;
+      if (day.length < 2) day = "0" + day;
+
+      return [year, month, day].join("-");
+    },
     validateForm() {
       this.formIsValid = true;
-
-      if (this.username.val === "" || this.username.val.length > 20) {
-        this.username.isValid = false;
-        this.formIsValid = false;
+      if (this.data == "user" || this.data == null) {
+        if (this.username.val === "" || this.username.val.length > 20) {
+          this.username.isValid = false;
+          this.formIsValid = false;
+        }
+        if (this.firstname.val === "" || this.firstname.val.length > 20) {
+          this.firstname.isValid = false;
+          this.formIsValid = false;
+        }
+        if (this.lastname.val === "" || this.lastname.val.length > 20) {
+          this.lastname.isValid = false;
+          this.formIsValid = false;
+        }
+        if (!this.email.val || !this.validEmail(this.email.val)) {
+          this.email.isValid = false;
+          this.formIsValid = false;
+        }
+        if (this.phoneNumber.val === "" || this.phoneNumber.val.length > 11) {
+          this.phoneNumber.isValid = false;
+          this.formIsValid = false;
+        }
       }
-      if (this.firstname.val === "" || this.firstname.val.length > 20) {
-        this.firstname.isValid = false;
-        this.formIsValid = false;
-      }
-      if (this.lastname.val === "" || this.lastname.val.length > 20) {
-        this.lastname.isValid = false;
-        this.formIsValid = false;
-      }
-      if (!this.email.val || !this.validEmail(this.email.val)) {
-        this.email.isValid = false;
-        this.formIsValid = false;
-      }
-      if (this.phonenumber.val === "" || this.phonenumber.val.length > 11) {
-        this.phonenumber.isValid = false;
-        this.formIsValid = false;
-      }
-      if (!this.amountPeople.val || this.amountPeople.val > 15) {
-        this.amountPeople.isValid = false;
-        this.formIsValid = false;
-      }
-      if (!this.startTime.val) {
-        this.startTime.isValid = false;
-        this.formIsValid = false;
-      }
-      if (!this.finishTime.val || this.startTime.val > this.finishTime.val) {
-        this.finishTime.isValid = false;
-        this.formIsValid = false;
-      }
-      if (this.type.val === "") {
-        this.typeUse.isValid = false;
-        this.formIsValid = false;
+      if (this.data == "contract" || this.data == null) {
+        if (!this.amountPeople.val || this.amountPeople.val > 15) {
+          this.amountPeople.isValid = false;
+          this.formIsValid = false;
+        }
+        if (!this.data) {
+          if (!this.startTime.val) {
+            this.startTime.isValid = false;
+            this.formIsValid = false;
+          }
+        }
+        if (!this.finishTime.val || this.startTime.val > this.finishTime.val) {
+          this.finishTime.isValid = false;
+          this.formIsValid = false;
+        }
+        if (this.type.val === "") {
+          this.typeUse.isValid = false;
+          this.formIsValid = false;
+        }
       }
     },
     validEmail: function (email) {
@@ -229,7 +252,7 @@ export default {
         firstname: this.firstname.val,
         lastname: this.lastname.val,
         email: this.email.val,
-        phonenumber: this.phonenumber.val,
+        phoneNumber: this.phoneNumber.val,
         contract: {
           amountPeople: this.amountPeople.val,
           startTime: this.startTime.val,
@@ -239,11 +262,6 @@ export default {
       };
 
       this.$emit("save-resident-data", formDataUser);
-    },
-  },
-  computed: {
-    editStatus() {
-      return this.$store.getters["immovable/editStatus"];
     },
   },
 };

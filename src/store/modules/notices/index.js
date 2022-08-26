@@ -6,11 +6,8 @@ export default {
   namespaced: true,
   state() {
     return {
-      flats: null,
-      rates: null,
-      users: null,
-      usersDetails: [],
-      contract: null,
+      notices: null,
+      noticesDetails: null,
     };
   },
   mutations,

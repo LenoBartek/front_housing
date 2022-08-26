@@ -8,4 +8,19 @@ export default {
   rates(state) {
     return state.rates;
   },
+  users(state) {
+    return state.users;
+  },
+  hasUsers(state) {
+    return state.users && state.users.length > 0;
+  },
+  usersDetails(state) {
+    return state.usersDetails;
+  },
+  hasUsersDetails(state) {
+    return state.usersDetails && state.usersDetails.length > 0;
+  },
+  contract(state) {
+    return state.contract;
+  }
 };

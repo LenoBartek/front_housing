@@ -79,7 +79,7 @@ export default {
       this.loading = true;
       this.$store.dispatch("auth/login", user).then(
         () => {
-          this.$router.push("/immovable");
+          this.$router.push("/immovables");
         },
         (error) => {
           this.loading = false;

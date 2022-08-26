@@ -54,9 +54,7 @@
 </template>
 
 <script>
-import BaseCard from "../ui/BaseCard.vue";
 export default {
-  components: { BaseCard },
   data() {
     return {
       error: null,
