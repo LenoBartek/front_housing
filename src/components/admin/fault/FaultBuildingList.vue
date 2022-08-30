@@ -19,7 +19,7 @@
       <input
         type="text"
         name="searchBar"
-        placeholder="Nr. Mieszkania"
+        placeholder="Nazwa budynku"
         v-model="searchQuery"
       />
       <div v-if="isLoading">
@@ -145,7 +145,7 @@ export default {
 }
 .body {
   margin: auto;
-  width: 50%;
+  width: 65%;
   padding: 10px;
   overflow: auto;
 }

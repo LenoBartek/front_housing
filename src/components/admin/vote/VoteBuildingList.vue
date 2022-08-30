@@ -2,7 +2,7 @@
   <base-dialog :show="!!error" title="Wystąpił błąd!" @close="handleError">
     <p>{{ error }}</p>
   </base-dialog>
-  <div v-if="!addNotices">
+  <div v-if="!addFaults">
     <body-frame class="body">
       <div class="text">
         <base-card>
@@ -44,27 +44,27 @@
         </table>
       </div>
       <base-button
-        @click="addNoticesToggle"
+        @click="addFaultsToggle"
         class="button"
         v-if="currentlyBuilding"
-        >Dodaj Ogłoszenie</base-button
+        >Dodaj Głosowanie</base-button
       >
     </body-frame>
   </div>
-  <div v-else-if="addNotices">
-    <h2>Dodawanie Ogłoszenia</h2>
+  <div v-else-if="addFaults">
+    <h2>Dodawanie Głosowania</h2>
     <base-card>
-      <notices-from @save-data-notice="saveData"> </notices-from>
+      <vote-form @save-data-vote="saveData"> </vote-form>
     </base-card>
   </div>
 </template>
 
 <script>
-import NoticesFrom from "./NoticesForm.vue";
+import VoteForm from "./VoteForm.vue";
 
 export default {
   components: {
-    NoticesFrom,
+    VoteForm,
   },
   data() {
     return {
@@ -72,7 +72,7 @@ export default {
       currentlyBuilding: null,
       searchQuery: "",
       isLoading: false,
-      addNotices: false,
+      addFaults: false,
     };
   },
   created() {
@@ -91,25 +91,30 @@ export default {
     async saveData(data) {
       data.building_id = this.currentlyBuilding.id;
       try {
-        await this.$store.dispatch("notices/addNotice", data);
+        await this.$store.dispatch("vote/addVote", data);
       } catch (error) {
         this.error = error.message || "Coś poszło nie tak :)";
       }
-      if (!this.error) this.$router.replace("/notices");
+      if (!this.getVoteError) this.$router.replace("/votes");
+      else this.error = this.getVoteError;
     },
     handleError() {
       this.error = null;
+      this.$store.commit("vote/setVotesError", null);
     },
     selectedBuilding(building) {
       this.currentlyBuilding = building;
     },
-    addNoticesToggle() {
-      this.addNotices = !this.addNotices;
+    addFaultsToggle() {
+      this.addFaults = !this.addFaults;
     },
   },
   computed: {
     getBuilding() {
       return this.$store.getters["immovable/nodes_2"];
+    },
+    getVoteError() {
+      return this.$store.getters["vote/voteError"];
     },
     filteredBuilding() {
       const buildings = this.getBuilding;

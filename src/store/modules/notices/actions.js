@@ -93,4 +93,39 @@ export default {
       throw error;
     }
   },
+
+  async loadNoticesForUsers(context, data) {
+    const response = await fetch(
+      context.rootGetters.host + `/buildings/${data.buildingId}/notices?archived=${data.archived}`,
+      {
+        headers: authHeader(),
+      }
+    );
+    const responseData = await response.json();
+
+    if (!response.ok) {
+      const error = new Error(
+        responseData.message || "Nie udało się pobrać danych!"
+      );
+      throw error;
+    }
+
+    const noticesData = {
+      id: responseData.id,
+      name: responseData.name,
+      notices: [],
+    };
+
+    for (const key in responseData.notices){
+      const notice = {
+        id: responseData.notices[key].id,
+        title: responseData.notices[key].title,
+        archived: responseData.notices[key].archived,
+        executionDate: responseData.notices[key].executionDate,
+      }
+      noticesData.notices.push(notice);
+    }
+
+    context.commit("setNotices", noticesData.notices);
+  },
 };

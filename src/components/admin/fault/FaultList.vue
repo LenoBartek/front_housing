@@ -5,7 +5,7 @@
     </base-dialog>
     <half-page>
       <template #button>
-        <base-button @click="this.loadFaults('false')">Odśwież</base-button>
+        <base-button @click="reloadFaults2">Odśwież</base-button>
         <base-button link :to="faultsFormLink">Dodaj Usterkę</base-button>
         <base-button :style="style_btn" @click="showFixedFaults">{{
           isFixed
@@ -21,14 +21,15 @@
             <table class="resident">
               <thead>
                 <tr>
-                  <th>Budynek
+                  <th v-if="isAdmin">Budynek
                   <i class="fa-solid fa-magnifying-glass" @click="searchToggle(0)"></i>
-                  <td v-if="searchMode.building"><input type="text" class="search" placeholder="Szukaj..." v-model="searchBuilding"></td>
+                  <td v-if="searchMode.building"><input type="text" size="17" class="search" placeholder="Szukaj..." v-model="searchBuilding"></td>
                   </th>
 
                   <th>Tytuł
                   <i class="fa-solid fa-magnifying-glass" @click="searchToggle(1)"></i>
-                  <td v-if="searchMode.title"><input type="text" class="search" placeholder="Szukaj..." v-model="searchTitle"></td>
+                  <td v-if="searchMode.title && isAdmin"><input type="text" size="17" class="search" placeholder="Szukaj..." v-model="searchTitle"></td>
+                  <td v-else-if="searchMode.title && !isAdmin"><input type="text" size="17" style="position: relative; left: 9vw;" placeholder="Szukaj..." v-model="searchTitle"></td>
                   </th>
 
                   <th>Akcje</th>
@@ -37,11 +38,11 @@
               <tbody>
               
               <tr v-for="fault in filteredFaults" :key="fault.id">
-                <td>{{ fault.building.name }}</td>
+                <td v-if="isAdmin">{{ fault.building.name }}</td>
                 <td>{{ fault.title }}</td>
                 <td>
                   <i class="fa-solid fa-circle-info" @click="detailsToggle(fault.id)"></i>
-                  <i v-if="!fixed" class="fa-solid fa-screwdriver-wrench" @click="fixToggle(fault)"></i>
+                  <i v-if="!fixed && isAdmin" class="fa-solid fa-screwdriver-wrench" @click="fixToggle(fault)"></i>
                 </td>
               </tr>
               </tbody>
@@ -56,7 +57,8 @@
         </div>
 
         <div v-if="getFaultDetails && getFaultImage && !isLoadingDetails">
-          <p style="white-space: pre-wrap;" class="details">{{ getFaultDetails.description }}</p>
+          <p>Tytuł: {{ getFaultDetails.title }}</p>
+          <p class="details">{{ getFaultDetails.description }}</p>
           <img :src="getFaultImage">
         </div>
 
@@ -90,9 +92,6 @@ export default {
       isLoadingDetails: false,
     };
   },
-  created() {
-    this.loadFaults("false");
-  },
   methods: {
     async loadFaults(fixed) {
       this.isLoading = true;
@@ -102,6 +101,18 @@ export default {
         this.error = error.message || "Coś poszło nie tak :)";
       }
       this.isLoading = false;
+    },
+    async loadFaultsForUsers(fixed) {
+      if(this.getBuildingId) {
+        this.isLoading = true;
+        try {
+          await this.$store.dispatch("fault/loadFaultsForUsers",
+           {fixed: fixed, buildingId: this.getBuildingId });
+        } catch (error) {
+          this.error = error.message || "Coś poszło nie tak :)";
+        }
+        this.isLoading = false;
+      }
     },
     async loadFaultDetails(id) {
       try {
@@ -150,6 +161,16 @@ export default {
         this.fixToggle();
       }
     },
+    reloadFaults2() {
+      if (this.fixed) {
+        if(this.isAdmin == true) this.loadFaults("true");
+        else if (this.isAdmin == false) this.loadFaultsForUsers("true");
+
+      } else if (!this.fixed) {
+        if(this.isAdmin == true) this.loadFaults("false");
+        else if (this.isAdmin == false) this.loadFaultsForUsers("false");
+      }
+    }
   },
   computed: {
     getFaults() {
@@ -172,24 +193,40 @@ export default {
     },
     style_btn() {
       if (this.fixed) {
-        this.loadFaults("true");
+        if(this.isAdmin == true) this.loadFaults("true");
+        else if (this.isAdmin == false) this.loadFaultsForUsers("true");
         return "background-color: #7c7a77; border-color: #7c7a77; color: white;";
       } else if (!this.fixed) {
-        this.loadFaults("false");
+        if(this.isAdmin == true) this.loadFaults("false");
+        else if (this.isAdmin == false) this.loadFaultsForUsers("false");
       }
       return "";
     },
     filteredFaults() {
       const faults = this.getFaults;
-      if (faults) {
+
+      if (faults && this.isAdmin) {
         return faults.filter((fault) => {
           return (
             fault.building.name.toLowerCase().includes(this.searchBuilding.replace(/\s/g, "").toLowerCase()) &&
-            fault.title.toLowerCase().includes(this.searchTitle.replace(/\s/g, "").toLowerCase())
+            fault.title.toLowerCase().includes(this.searchTitle.toLowerCase())
           );
         });
-      } else return this.getFaults;
+      } else if (faults && !this.isAdmin) {
+        return faults.filter((fault) => {
+          return (
+            fault.title.toLowerCase().includes(this.searchTitle.toLowerCase())
+          );
+        });
+      }
+      else return faults;
     },
+    isAdmin() {
+      return this.$store.getters.role == "ADMIN" ? true : false;
+    },
+    getBuildingId() {
+      return this.$store.getters.buildingId;
+    }
   },
 };
 </script>
@@ -248,7 +285,7 @@ export default {
 
 .search {
   position: relative;
-  left: 45%;
+  left: 40%;
 }
 
 .fa-solid {
@@ -259,6 +296,8 @@ export default {
 .details {
   text-align: left;
   margin: 25px;
+  white-space: pre-wrap;
+  width: 36vw;
 }
 
 img {

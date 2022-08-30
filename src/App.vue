@@ -1,13 +1,17 @@
 <template>
   <div>
-    <router-view></router-view>
+    <router-view v-slot="slotProps"> 
+      <component :is="slotProps.Component"></component>
+    </router-view>
   </div>
 </template>
 
 <script>
 export default {
   name: "App",
-  components: {},
+  created() {
+    this.$store.dispatch('tryLogin');
+  },
 };
 </script>
 

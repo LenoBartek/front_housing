@@ -93,7 +93,8 @@ export default {
     );
 
     if (!response.ok) {
-      const error = new Error( "Nie udało się naprawic usterki");
+      const responseData = await response.json();
+      const error = new Error(responseData.message || "Nie udało się naprawic usterki");
       throw error;
     }
   },
@@ -130,5 +131,39 @@ export default {
       .catch((e) => {
         context.commit("setFaultsError", e.response.data.message);
       });
+  },
+
+  async loadFaultsForUsers(context, data) {
+    const response = await fetch(
+      context.rootGetters.host + `/buildings/${data.buildingId}/faults?fixed=${data.fixed}`,
+      {
+        headers: authHeader(),
+      }
+    );
+    const responseData = await response.json();
+
+    if (!response.ok) {
+      const error = new Error(
+        responseData.message || "Nie udało się pobrać danych!"
+      );
+      throw error;
+    }
+
+    const faultsData = {
+      id: responseData.id,
+      name: responseData.name,
+      faults: [],
+    };
+
+    for (const key in responseData.faults){
+      const fault = {
+        id: responseData.faults[key].id,
+        title: responseData.faults[key].title,
+        fixed: responseData.faults[key].fixed,
+      }
+      faultsData.faults.push(fault);
+    }
+
+    context.commit("setFaults", faultsData.faults);
   },
 };

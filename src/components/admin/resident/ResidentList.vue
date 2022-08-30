@@ -122,12 +122,13 @@
                             <td>{{currentDetails.contract.amountPeople}}</td>
                           </tr>
                           <tr>
-                            <td>Rozpoczęcie najmu</td>
+                            <td v-if="currentDetails.contract.type == 'LEASE_AGREEMENT'">Rozpoczęcie najmu</td>
+                            <td v-if="currentDetails.contract.type == 'OWNERSHIP_AGREEMENT'">Umowa od</td>
                             <td>{{ formatDate(currentDetails.contract.startTime) }}</td>
                           </tr>
                           <tr>
-                            <td>Zakończenie najmu</td>
-                            <td>{{ formatDate(currentDetails.contract.finishTime) }}</td>
+                            <td v-if="currentDetails.contract.type == 'LEASE_AGREEMENT'">Zakończenie najmu</td>
+                            <td v-if="currentDetails.contract.type == 'LEASE_AGREEMENT'">{{ formatDate(currentDetails.contract.finishTime) }}</td>
                           </tr>
                         </table>
                        </td>

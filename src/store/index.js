@@ -7,6 +7,7 @@ import voteModule from "./modules/vote/index.js";
 import faultModule from "./modules/fault/index.js";
 import accountModule from "./modules/account/index.js";
 import noticesModule from "./modules/notices/index.js";
+import auth2Module from "./modules/auth2/index.js";
 
 const store = createStore({
   modules: {
@@ -17,6 +18,7 @@ const store = createStore({
     fault: faultModule,
     account: accountModule,
     notices: noticesModule,
+    auth2: auth2Module,
   },
   state() {
     return {

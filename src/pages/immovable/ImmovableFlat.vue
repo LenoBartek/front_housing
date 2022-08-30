@@ -33,7 +33,7 @@ export default {
       } catch (error) {
         this.error = error.message || "Coś poszło nie tak :)";
       }
-      if (!this.error) this.$router.replace("/immovable");
+      if (!this.error) this.$router.replace("/immovables");
     },
     // async loadBuildingID() {
     //   try {

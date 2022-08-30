@@ -1,15 +1,15 @@
 <template>
   <section>
     <home-page> </home-page>
-    <button-header>
-      <template #button>
-        <base-button>Dodaj glosowanie</base-button>
-      </template>
-       <h1>Głosowanie</h1>
-    </button-header>
+    <vote-list> </vote-list>
   </section>
 </template>
 
 <script>
-export default {};
+import VoteList from "../../components/admin/vote/VoteList.vue";
+export default {
+  components: {
+    VoteList,
+  },
+};
 </script>

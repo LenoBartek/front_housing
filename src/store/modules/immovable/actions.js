@@ -54,8 +54,8 @@ export default {
       }
     );
 
-    const responseData = await response.json();
     if (!response.ok) {
+      const responseData = await response.json();
       const error = new Error(
         responseData.message || "Nie udało się edytować budynku!"
       );
@@ -72,8 +72,8 @@ export default {
       }
     );
 
-    const responseData = await response.json();
     if (!response.ok) {
+      const responseData = await response.json();
       const error = new Error(
         responseData.message || "Nie udało się usunąć budynku!"
       );
@@ -123,8 +123,8 @@ export default {
       }
     );
 
-    const responseData = await response.json();
     if (!response.ok) {
+      const responseData = await response.json();
       const error = new Error(
         responseData.message || "Nie udało się edytować mieszkania!"
       );
@@ -141,8 +141,8 @@ export default {
       }
     );
 
-    const responseData = await response.json();
     if (!response.ok) {
+      const responseData = await response.json();
       const error = new Error(
         responseData.message || "Nie udało się usunąć mieszkania!"
       );

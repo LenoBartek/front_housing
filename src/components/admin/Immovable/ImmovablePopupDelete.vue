@@ -42,7 +42,7 @@ export default {
       } catch (error) {
         this.error = error.message || "Coś poszło nie tak :)";
       }
-      if (!this.error) this.$emit("status", "ok");
+      if (!this.error) this.$emit("status", "building_ok");
     },
     async deleteFlat() {
       try {
@@ -53,7 +53,7 @@ export default {
       } catch (error) {
         this.error = error.message || "Coś poszło nie tak :)";
       }
-      if (!this.error) this.$emit("status", "ok");
+      if (!this.error) this.$emit("status", "flat_ok");
     },
     handleError() {
       this.error = null;

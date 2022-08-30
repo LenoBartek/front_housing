@@ -103,13 +103,14 @@ label {
 }
 
 .card-container.card {
-  height: 80%;
   max-width: 500px !important;
   padding: 40px;
+  margin-bottom: auto;
+  margin-top: auto;
 }
 
 .img {
-  width: 15vw;
+  width: 30vh;
 }
 
 .card {
@@ -156,5 +157,7 @@ label {
   -webkit-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
+  min-height: 100vh;
+  padding-top: 8vh;
 }
 </style>

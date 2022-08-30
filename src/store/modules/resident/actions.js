@@ -168,23 +168,43 @@ export default {
   },
 
   async addContract(context, data) {
-    const ContractData = {
-      type: data.contract.type,
-      amountPeople: data.contract.amountPeople,
-      startTime: data.contract.startTime + "T12:00:00Z",
-      finishTime: data.contract.finishTime + "T12:00:00Z",
-      user: {
-        firstname: data.firstname,
-        lastname: data.lastname,
-        username: data.username,
-        email: data.email,
-        phoneNumber: data.phoneNumber,
-        password: initialPassword,
-      },
-      flat: {
-        id: data.flat_id,
-      },
-    };
+    var ContractData = null;
+
+    if (data.contract.type == "LEASE_AGREEMENT") {
+      ContractData = {
+        type: data.contract.type,
+        amountPeople: data.contract.amountPeople,
+        startTime: data.contract.startTime + "T12:00:00Z",
+        finishTime: data.contract.finishTime + "T12:00:00Z",
+        user: {
+          firstname: data.firstname,
+          lastname: data.lastname,
+          username: data.username,
+          email: data.email,
+          phoneNumber: data.phoneNumber,
+          password: initialPassword,
+        },
+        flat: {
+          id: data.flat_id,
+        },
+      };
+    } else if (data.contract.type == "OWNERSHIP_AGREEMENT") {
+      ContractData = {
+        type: data.contract.type,
+        amountPeople: data.contract.amountPeople,
+        user: {
+          firstname: data.firstname,
+          lastname: data.lastname,
+          username: data.username,
+          email: data.email,
+          phoneNumber: data.phoneNumber,
+          password: initialPassword,
+        },
+        flat: {
+          id: data.flat_id,
+        },
+      };
+    }
 
     const response = await fetch(context.rootGetters.host + "/contracts", {
       method: "POST",
@@ -222,8 +242,8 @@ export default {
         }
       );
 
-      const responseData = await response.json();
       if (!response.ok) {
+        const responseData = await response.json();
         const error = new Error(
           responseData.message || "Nie udało się dodać budynku!"
         );
@@ -245,8 +265,8 @@ export default {
         }
       );
 
-      const responseData = await response.json();
       if (!response.ok) {
+        const responseData = await response.json();
         const error = new Error(
           responseData.message || "Nie udało się dodać budynku!"
         );
@@ -308,8 +328,8 @@ export default {
       }
     );
 
-    const responseData = await response.json();
     if (!response.ok) {
+      const responseData = await response.json();
       const error = new Error(
         responseData.message || "Nie udało się edytować danych!"
       );

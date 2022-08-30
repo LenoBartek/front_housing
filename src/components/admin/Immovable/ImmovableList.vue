@@ -144,8 +144,11 @@ export default {
       this.error = null;
     },
     reloadList(status) {
-      if (status == "ok") {
-        this.$store.dispatch("immovable/changeEditMode");
+      if (status == "building_ok") {
+        this.deleteToggle();
+        this.loadBuildings();
+      } else if (status == "flat_ok") {
+        this.deleteToggle2();
         this.loadBuildings();
       }
     },

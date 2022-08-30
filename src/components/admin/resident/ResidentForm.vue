@@ -59,7 +59,33 @@
           @blur="clearValidity('amountPeople')"
         />
       </div>
-      <div v-if="!this.editToggle" :class="{ invalid: !startTime.isValid }">
+
+      <div v-if="this.data == null">
+        <div :class="{ invalid: !type.isValid }">
+          <h3 style="font-weight: bold">Rodzaj użytkowania:</h3>
+          <div>
+            <input
+              type="radio"
+              id="lease_agreement"
+              value="LEASE_AGREEMENT"
+              v-model="type.val"
+              @blur="clearValidity('type')"
+            />
+            <label style="font-weight: normal" for="type">Wynajem</label>
+          </div>
+
+          <input
+            type="radio"
+            id="ownership_agreement"
+            value="OWNERSHIP_AGREEMENT"
+            v-model="type.val"
+            @blur="clearValidity('type')"
+          />
+          <label style="font-weight: normal" for="type">Na własność</label>
+        </div>
+      </div>
+
+      <div v-if="!this.editToggle && type.val == 'LEASE_AGREEMENT'" :class="{ invalid: !startTime.isValid }">
         <label for="startTime">Rozpoczęcie najmu</label>
         <input
           type="date"
@@ -69,7 +95,7 @@
           @blur="clearValidity('startTime')"
         />
       </div>
-      <div :class="{ invalid: !finishTime.isValid }">
+      <div v-if="type.val == 'LEASE_AGREEMENT'" :class="{ invalid: !finishTime.isValid }">
         <label for="finishTime">Zakończenie najmu</label>
         <input
           type="date"
@@ -80,30 +106,7 @@
         />
       </div>
     </div>
-    <div v-if="this.data == null">
-      <div :class="{ invalid: !type.isValid }">
-        <h3>Rodzaj użytkowania:</h3>
-        <div>
-          <input
-            type="radio"
-            id="lease_agreement"
-            value="LEASE_AGREEMENT"
-            v-model="type.val"
-            @blur="clearValidity('type')"
-          />
-          <label for="type">Wynajem</label>
-        </div>
 
-        <input
-          type="radio"
-          id="ownership_agreement"
-          value="OWNERSHIP_AGREEMENT"
-          v-model="type.val"
-          @blur="clearValidity('type')"
-        />
-        <label for="type">Na własność</label>
-      </div>
-    </div>
     <p v-if="!formIsValid">Uzupełnij poprawnie dane!</p>
     <div v-if="!this.editToggle">
       <base-button class="btn-base">Dodaj</base-button>
@@ -219,15 +222,17 @@ export default {
           this.amountPeople.isValid = false;
           this.formIsValid = false;
         }
-        if (!this.data) {
+        if (!this.data && this.type.val == 'LEASE_AGREEMENT') {
           if (!this.startTime.val) {
             this.startTime.isValid = false;
             this.formIsValid = false;
           }
         }
-        if (!this.finishTime.val || this.startTime.val > this.finishTime.val) {
-          this.finishTime.isValid = false;
-          this.formIsValid = false;
+        if(this.type.val == 'LEASE_AGREEMENT') {
+          if (!this.finishTime.val || this.startTime.val > this.finishTime.val) {
+            this.finishTime.isValid = false;
+            this.formIsValid = false;
+          }
         }
         if (this.type.val === "") {
           this.typeUse.isValid = false;

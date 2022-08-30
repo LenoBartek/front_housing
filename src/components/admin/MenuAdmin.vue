@@ -4,7 +4,20 @@
       <li v-for="mem in members" :key="mem.id">
         <a
           :class="{ active: mem.id === active }"
-          v-on:click="selectMember(mem.id)"
+          @click="selectMember(mem.id)"
+          v-if="isAdmin"
+        >
+          {{ mem.category }}
+        </a>
+        <a
+          :class="{ active: mem.id === active }"
+          @click="selectMember(mem.id)"
+          v-else-if="
+            (mem.category == 'Głosowania' ||
+              mem.category == 'Ogłoszenia' ||
+              mem.category == 'Usterki') &&
+            !isAdmin
+          "
         >
           {{ mem.category }}
         </a>
@@ -30,11 +43,17 @@ export default {
       ],
     };
   },
+
   methods: {
     selectMember: function (id) {
       store.commit("setActiveTabId", id);
       this.active = id;
       this.$router.push(this.members[id - 1].path);
+    },
+  },
+  computed: {
+    isAdmin() {
+      return this.$store.getters.role == "ADMIN" ? true : false;
     },
   },
 };

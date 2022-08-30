@@ -124,7 +124,7 @@ export default {
 }
 .body {
   margin: auto;
-  width: 50%;
+  width: 65%;
   padding: 10px;
   overflow: auto;
 }

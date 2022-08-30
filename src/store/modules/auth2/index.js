@@ -3,13 +3,11 @@ import actions from "./actions.js";
 import getters from "./getters.js";
 
 export default {
-  namespaced: true,
   state() {
     return {
-      votes: null,
-      voteDetails: null,
-      votePdf: null,
-      error: null,
+      role: null,
+      userId: null,
+      buildingId: null,
     };
   },
   mutations,
