@@ -17,6 +17,9 @@ export default {
   usersDetails(state) {
     return state.usersDetails;
   },
+  userDetails(state) {
+    return state.userDetails;
+  },
   hasUsersDetails(state) {
     return state.usersDetails && state.usersDetails.length > 0;
   },

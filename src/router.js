@@ -18,6 +18,7 @@ const NoticesPage = () => import("./pages/notices/NoticesPage.vue");
 const NoticesBuilding = () => import("./pages/notices/NoticesBuilding.vue");
 const FaultBuilding = () => import("./pages/fault/FaultBuilding.vue");
 const VoteBuilding = () => import("./pages/vote/VoteBuilding.vue")
+const FeesPage = () => import("./pages/fees/FeesPage.vue")
 
 const router = createRouter({
   history: createWebHistory(),
@@ -42,6 +43,7 @@ const router = createRouter({
     { path: "/account", component: AccountPage, meta: { requiresAuth: true, role: ['ADMIN', 'USER'] } },
     { path: "/notices", component: NoticesPage, meta: { requiresAuth: true, role: ['ADMIN', 'USER'] } },
     { path: "/notices/addnotice", component: NoticesBuilding, meta: { requiresAuth: true, role: ['ADMIN'] } },
+    { path: "/fees", component: FeesPage, meta: { requiresAuth: true, role: ['USER'] } },
     { path: "/:notFound(.*)", component: NotFound },
   ],
 });

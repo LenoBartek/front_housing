@@ -10,6 +10,7 @@ export default {
       rates: null,
       users: null,
       usersDetails: [],
+      userDetails: null,
       contract: null,
     };
   },

@@ -5,7 +5,16 @@
         <a
           :class="{ active: mem.id === active }"
           @click="selectMember(mem.id)"
-          v-if="isAdmin"
+          v-if="
+            (
+              mem.category == 'Nieruchomosci' ||
+              mem.category == 'Mieszkańcy' ||
+              mem.category == 'Głosowania' ||
+              mem.category == 'Ogłoszenia' ||
+              mem.category == 'Usterki'
+            ) &&
+            isAdmin
+          "
         >
           {{ mem.category }}
         </a>
@@ -15,7 +24,8 @@
           v-else-if="
             (mem.category == 'Głosowania' ||
               mem.category == 'Ogłoszenia' ||
-              mem.category == 'Usterki') &&
+              mem.category == 'Usterki' ||
+              mem.category == 'Opłaty') &&
             !isAdmin
           "
         >
@@ -40,6 +50,7 @@ export default {
         { id: 3, category: "Głosowania", path: "/votes" },
         { id: 4, category: "Ogłoszenia", path: "/notices" },
         { id: 5, category: "Usterki", path: "/faults" },
+        { id: 6, category: "Opłaty", path: "/fees" },
       ],
     };
   },

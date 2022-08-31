@@ -137,7 +137,11 @@ export default {
       },
     };
 
-    context.commit("setUsersDetails", detail);
+    if (context.rootGetters.role == "USER") {
+      context.commit("setUserDetails", detail);
+    } else if (context.rootGetters.role == "ADMIN") {
+      context.commit("setUsersDetails", detail);
+    }
   },
 
   async loadContract(context, id) {

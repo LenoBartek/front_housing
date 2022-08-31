@@ -11,6 +11,9 @@ export default {
   setUsersDetails(state, payload) {
     state.usersDetails.push(payload);
   },
+  setUserDetails(state, payload) {
+    state.userDetails = payload;
+  },
   setContract(state, payload) {
     state.contract = payload;
   }
