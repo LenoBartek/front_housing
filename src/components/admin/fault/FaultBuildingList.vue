@@ -2,56 +2,64 @@
   <base-dialog :show="!!error" title="Wystąpił błąd!" @close="handleError">
     <p>{{ error }}</p>
   </base-dialog>
-  <div v-if="!addFaults">
-    <body-frame class="body">
-      <div class="text">
-        <base-card>
-          <div v-if="currentlyBuilding">
-            <h3>Aktualnie wybrany:</h3>
-            <h3>Budynek {{ currentlyBuilding.name }}</h3>
-          </div>
-          <div v-else>
-            <h3>Wybierz Bydunek</h3>
-          </div></base-card
-        >
-      </div>
+  <div v-if="isAdmin">
+    <div v-if="!addFaults">
+      <body-frame class="body">
+        <div class="text">
+          <base-card>
+            <div v-if="currentlyBuilding">
+              <h3>Aktualnie wybrany:</h3>
+              <h3>Budynek {{ currentlyBuilding.name }}</h3>
+            </div>
+            <div v-else>
+              <h3>Wybierz Bydunek</h3>
+            </div></base-card
+          >
+        </div>
 
-      <input
-        type="text"
-        name="searchBar"
-        placeholder="Nazwa budynku"
-        v-model="searchQuery"
-      />
-      <div v-if="isLoading">
-        <base-spinner> </base-spinner>
-      </div>
-      <div v-else-if="hasBuilding">
-        <table class="flats">
-          <thead>
-            <tr>
-              <th>Budynek</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              v-for="building in this.filteredBuilding"
-              :key="building.id"
-              @click="selectedBuilding(building)"
-            >
-              <td>{{ building.name }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <base-button
-        @click="addFaultsToggle"
-        class="button"
-        v-if="currentlyBuilding"
-        >Dodaj Usterkę</base-button
-      >
-    </body-frame>
+        <input
+          type="text"
+          name="searchBar"
+          placeholder="Nazwa budynku"
+          v-model="searchQuery"
+        />
+        <div v-if="isLoading">
+          <base-spinner> </base-spinner>
+        </div>
+        <div v-else-if="hasBuilding">
+          <table class="flats">
+            <thead>
+              <tr>
+                <th>Budynek</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                v-for="building in this.filteredBuilding"
+                :key="building.id"
+                @click="selectedBuilding(building)"
+              >
+                <td>{{ building.name }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <base-button
+          @click="addFaultsToggle"
+          class="button"
+          v-if="currentlyBuilding"
+          >Dodaj Usterkę</base-button
+        >
+      </body-frame>
+    </div>
+    <div v-else-if="addFaults">
+      <h2>Dodawanie Usterki</h2>
+      <base-card>
+        <fault-form @save-data-fault="saveData"> </fault-form>
+      </base-card>
+    </div>
   </div>
-  <div v-else-if="addFaults">
+  <div v-else-if="!isAdmin">
     <h2>Dodawanie Usterki</h2>
     <base-card>
       <fault-form @save-data-fault="saveData"> </fault-form>
@@ -89,12 +97,14 @@ export default {
       this.isLoading = false;
     },
     async saveData(data) {
-      data.building_id = this.currentlyBuilding.id;
-      try {
-        await this.$store.dispatch("fault/addFault", data);
-      } catch (error) {
-        this.error = error.message || "Coś poszło nie tak :)";
-      }
+      if (this.isAdmin) data.building_id = this.currentlyBuilding.id;
+      else if (!this.isAdmin) data.building_id = this.getBuildingId;
+
+        try {
+          await this.$store.dispatch("fault/addFault", data);
+        } catch (error) {
+          this.error = error.message || "Coś poszło nie tak :)";
+        }
       if (!this.getFaultError) this.$router.replace("/faults");
       else this.error = this.getFaultError;
     },
@@ -129,6 +139,12 @@ export default {
     },
     hasBuilding() {
       return !this.isLoading && this.$store.getters["immovable/hasNodes"];
+    },
+    isAdmin() {
+      return this.$store.getters.role == "ADMIN" ? true : false;
+    },
+    getBuildingId() {
+      return this.$store.getters.buildingId;
     },
   },
 };
