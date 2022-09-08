@@ -11,7 +11,7 @@
             <h3>Budynek {{ currentlyBuilding.name }}</h3>
           </div>
           <div v-else>
-            <h3>Wybierz Bydunek</h3>
+            <h3>Wybierz Budynek</h3>
           </div></base-card
         >
       </div>

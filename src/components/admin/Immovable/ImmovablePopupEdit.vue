@@ -9,6 +9,7 @@
           <div v-if="this.Building">
             <immovable-building-form
               @save-data-building="saveEditBuilding"
+              :editToggle="this.editToggle"
               :name2="this.Building.name"
               :town2="this.Building.town"
               :street2="this.Building.street"
@@ -25,6 +26,7 @@
           <div v-else-if="this.Flat">
             <immovable-flat-form
               @save-data-flat="saveEditFlat"
+              :editToggle="this.editToggle"
               :storey2="this.Flat.storey"
               :number2="this.Flat.number"
               :nrStaircase2="this.Flat.nrStaircase"
@@ -43,7 +45,7 @@ import ImmovableBuildingForm from "./ImmovableBuildingForm.vue";
 import ImmovableFlatForm from "./ImmovableFlatForm.vue";
 
 export default {
-  props: ["Building", "Flat"],
+  props: ["Building", "Flat", "editToggle"],
   emits: ["status"],
   components: {
     ImmovableBuildingForm,
@@ -62,7 +64,7 @@ export default {
       } catch (error) {
         this.error = error.message || "Coś poszło nie tak :)";
       }
-      if (!this.error) this.$emit("status", "ok");
+      if (!this.error) this.$emit("status", "edit_building_ok");
     },
     async saveEditFlat(data) {
       data.id = this.Flat.id;
@@ -72,7 +74,7 @@ export default {
       } catch (error) {
         this.error = error.message || "Coś poszło nie tak :)";
       }
-      if (!this.error) this.$emit("status", "ok");
+      if (!this.error) this.$emit("status", "edit_flat_ok");
     },
     handleError() {
       this.error = null;

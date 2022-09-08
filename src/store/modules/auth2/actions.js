@@ -5,22 +5,21 @@ export default {
     const user = JSON.parse(localStorage.getItem("user"));
     
     if (user) {
-      var userRole = "";
-      user.email == "admin@gmail.com" ? userRole = "ADMIN" : userRole = "USER";
+      // var userRole = "";
+      // user.email == "admin@gmail.com" ? userRole = "ADMIN" : userRole = "USER";
 
       context.commit("setUser", {
-        role: userRole,
+        role: user.role,
         userId: user.id,
-        
       });
       
-      if (userRole == 'USER')
+      if (user.role == 'USER')
         context.commit('setBuildingId', {buildingId: parseInt(localStorage.getItem("buildingId"))});
     }
   },
   async loadUserId(context) {
     const response = await fetch(
-      context.rootGetters.host + `/users/${context.getters.userId}`,
+      context.rootGetters.host + `/users/${context.getters.userId}/building`,
       {
         headers: authHeader(),
       }
@@ -33,10 +32,10 @@ export default {
       );
       throw error;
     }
-    localStorage.setItem("buildingId", responseData.contract.flat.building.id);
+    localStorage.setItem("buildingId", responseData.buildingId);
 
     const buildingId = {
-      buildingId: responseData.contract.flat.building.id,
+      buildingId: responseData.buildingId,
     };
 
     context.commit("setBuildingId", buildingId);
