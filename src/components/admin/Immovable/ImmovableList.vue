@@ -59,14 +59,12 @@
           >
           </EasyDataTable>
 
-          <base-button
-            class="btn-base"
-            @click="this.$store.dispatch('immovable/changeEditMode')"
-            mode="edit"
+          <base-button class="btn-base" @click="editToggle" mode="edit"
             >Edytuj</base-button
           >
           <immovable-popup-edit
-            v-if="editStatus"
+            v-if="editMode"
+            :editToggle="editToggle"
             :Building="building"
             :Flat="flat"
             @status="reloadList"
@@ -112,6 +110,7 @@ export default {
       isLoading: false,
       error: null,
       deleteBuilding: false,
+      editMode: false,
       deleteFlat: false,
       search: false,
       searchQuery: "",
@@ -131,6 +130,9 @@ export default {
     deleteToggle2() {
       if (this.flat) this.deleteFlat = !this.deleteFlat;
     },
+    editToggle() {
+      this.editMode = !this.editMode;
+    },
     async loadBuildings() {
       this.isLoading = true;
       try {
@@ -149,6 +151,12 @@ export default {
         this.loadBuildings();
       } else if (status == "flat_ok") {
         this.deleteToggle2();
+        this.loadBuildings();
+      } else if (status == "edit_building_ok") {
+        this.editToggle();
+        this.loadBuildings();
+      } else if (status == "edit_flat_ok") {
+        this.editToggle();
         this.loadBuildings();
       }
     },

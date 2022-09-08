@@ -38,15 +38,15 @@
     </div>
 
     <p v-if="!formIsValid">Uzupełnij poprawnie dane!</p>
-    <div v-if="!editStatus">
+    <div v-if="!editToggle">
       <base-button class="btn-base">Dodaj</base-button>
     </div>
-    <div v-else-if="editStatus">
+    <div v-else-if="editToggle">
       <base-button class="btn-base">Zatwierdź</base-button>
       <base-button
         class="btn-base"
         mode="delete"
-        @click="this.$store.dispatch('immovable/changeEditMode')"
+        @click="this.editToggle"
         >Anuluj</base-button
       >
     </div>
@@ -56,7 +56,7 @@
 <script>
 export default {
   emits: ["save-data-flat"],
-  props: ["storey2", "number2", "nrStaircase2", "areaM22"],
+  props: ["storey2", "number2", "nrStaircase2", "areaM22", "editToggle"],
   data() {
     return {
       storey: {

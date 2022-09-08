@@ -12,15 +12,15 @@ class AuthService {
         if (response.data.token) {
           localStorage.setItem('user', JSON.stringify(response.data));
           
-          var userRole="";
-          response.data.email == "admin@gmail.com" ? userRole = "ADMIN" : userRole = "USER";
+          //var userRole="";
+          // response.data.email == "admin@gmail.com" ? userRole = "ADMIN" : userRole = "USER";
 
           store.commit("setUser", {
-            role: userRole,
+            role: response.data.role,
             userId: response.data.id,
           });
 
-          if (userRole == 'USER'){
+          if (response.data.role == 'USER'){
             store.dispatch('loadUserId');
           }
           //console.log('auth', store.getters.buildingId);

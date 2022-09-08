@@ -36,19 +36,19 @@
           <td>{{ getRates.administrationM2 }}</td>
         </tr>
         <tr>
-          <td>Ciepła woda</td>
+          <td>Ciepła woda (Ryczałt/Osoba)</td>
           <td>{{ getRates.warmWaterPer }}</td>
         </tr>
         <tr>
-          <td>Zimna woda</td>
+          <td>Zimna woda (Ryczałt/Osoba)</td>
           <td>{{ getRates.coldWaterPer }}</td>
         </tr>
         <tr>
-          <td>Ścieki</td>
+          <td>Ścieki (Ryczałt/Osoba)</td>
           <td>{{ getRates.sewagePer }}</td>
         </tr>
         <tr>
-          <td>Śmieci</td>
+          <td>Śmieci (Osoba)</td>
           <td>{{ getRates.rubbishPer }}</td>
         </tr>
       </tbody>
